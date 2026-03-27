@@ -1,0 +1,1814 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blossom — Soft Future Design System</title>
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #7B61FF;
+  --primary-light: #A89BFF;
+  --primary-pressed: #6A52E0;
+  --secondary-blue: #5BC0EB;
+  --secondary-green: #6EE7B7;
+  --accent-peach: #FFB4A2;
+  --accent-yellow: #FFE066;
+  --success: #6EE7B7;
+  --warning: #FFE066;
+  --error: #FF6B6B;
+  --info: #5BC0EB;
+  --bg-base: #0E0E12;
+  --bg-card: #1A1A1F;
+  --bg-elevated: #222228;
+  --bg-chip: #2A2A32;
+  --text-primary: #F5F5F7;
+  --text-secondary: #9090A0;
+  --text-muted: #555560;
+  --border: rgba(255,255,255,0.07);
+  --r-sm: 10px; --r-md: 14px; --r-lg: 18px; --r-xl: 24px; --r-2xl: 32px; --r-pill: 9999px;
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 20px; --s-6: 24px;
+  --shadow-card: 0px 6px 20px rgba(0,0,0,0.25);
+  --shadow-float: 0px 16px 48px rgba(0,0,0,0.4);
+  --shadow-glow: 0 0 32px rgba(123,97,255,0.3);
+  --grad-violet: linear-gradient(135deg, #7B61FF, #A89BFF);
+  --grad-sky: linear-gradient(135deg, #5BC0EB, #6EE7B7);
+  --grad-peach: linear-gradient(135deg, #FFB4A2, #FFE066);
+  --grad-lavender: linear-gradient(135deg, #A89BFF, #5BC0EB);
+  --grad-warm: linear-gradient(135deg, #FFB4A2, #A89BFF);
+  --dur-calm: 180ms; --dur-gentle: 320ms; --dur-drift: 500ms;
+  --ease-spring: cubic-bezier(0.34,1.4,0.64,1);
+  --ease-out: cubic-bezier(0,0,0.2,1);
+}
+[data-theme="light"] {
+  --bg-base: #F2F3F8; --bg-card: #FFFFFF; --bg-elevated: #ECEDF5; --bg-chip: #E4E5F0;
+  --text-primary: #1C1C1E; --text-secondary: #6B7280; --text-muted: #9CA3AF;
+  --border: rgba(0,0,0,0.07);
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg-base); color: var(--text-primary); font-family: 'Nunito', sans-serif; display: flex; min-height: 100vh; transition: background 0.3s, color 0.3s; }
+
+/* SIDEBAR */
+.sidebar {
+  width: 220px; min-height: 100vh; background: var(--bg-card); border-right: 1px solid var(--border);
+  position: fixed; top: 0; left: 0; z-index: 100; padding: 28px 16px;
+  display: flex; flex-direction: column; gap: 4px; overflow-y: auto;
+}
+.sidebar-logo { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 22px; font-weight: 800; background: var(--grad-violet); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; padding: 8px 12px; }
+.sidebar-sub { font-size: 10px; font-weight: 700; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; padding: 16px 12px 6px; }
+.sidebar a { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: var(--r-md); font-size: 13px; font-weight: 600; color: var(--text-secondary); text-decoration: none; transition: all var(--dur-calm); }
+.sidebar a:hover { background: var(--bg-elevated); color: var(--text-primary); }
+.sidebar a.active { background: rgba(123,97,255,0.15); color: var(--primary-light); }
+.sidebar a i { font-size: 15px; }
+
+/* MAIN */
+.main { margin-left: 220px; flex: 1; padding: 0; }
+.topbar { position: sticky; top: 0; z-index: 50; background: rgba(14,14,18,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 16px 48px; display: flex; justify-content: space-between; align-items: center; }
+[data-theme="light"] .topbar { background: rgba(242,243,248,0.85); }
+.topbar-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 22px; font-weight: 800; background: var(--grad-violet); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.theme-toggle { display: flex; align-items: center; gap: 8px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: var(--r-pill); padding: 6px 14px; cursor: pointer; font-size: 13px; font-weight: 700; color: var(--text-secondary); transition: all var(--dur-calm); }
+.theme-toggle:hover { color: var(--text-primary); }
+.theme-toggle i { font-size: 16px; }
+
+/* SECTIONS */
+section { padding: 64px 48px; border-bottom: 1px solid var(--border); }
+.section-num { font-size: 11px; font-weight: 800; color: var(--primary); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 4px; }
+.section-label { font-size: 11px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; }
+.section-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 32px; font-weight: 800; margin: 12px 0 6px; line-height: 1.15; }
+.section-desc { font-size: 15px; color: var(--text-secondary); max-width: 520px; line-height: 1.6; margin-bottom: 40px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+.grid-5 { display: grid; grid-template-columns: repeat(5,1fr); gap: 12px; }
+
+/* CARDS */
+.card { background: var(--bg-card); border-radius: var(--r-xl); padding: var(--s-6); border: 1px solid var(--border); box-shadow: var(--shadow-card); }
+.card-grad-violet { background: var(--grad-violet); color: white; border: none; }
+.card-grad-sky { background: var(--grad-sky); color: #1a1a2e; border: none; }
+.card-grad-peach { background: var(--grad-peach); color: #2a1a1a; border: none; }
+
+/* COLOR SWATCHES */
+.swatch { height: 72px; border-radius: var(--r-md); display: flex; flex-direction: column; justify-content: flex-end; padding: 10px 12px; }
+.swatch-label { font-size: 11px; font-weight: 800; }
+.swatch-hex { font-size: 10px; font-weight: 600; opacity: 0.75; font-family: monospace; }
+
+/* TYPOGRAPHY */
+.type-row { padding: 16px 0; border-bottom: 1px solid var(--border); display: flex; align-items: baseline; gap: 20px; }
+.type-meta { font-size: 11px; font-weight: 700; color: var(--text-muted); width: 140px; flex-shrink: 0; }
+
+/* SPACING */
+.spacing-row { display: flex; align-items: center; gap: 16px; padding: 8px 0; }
+.spacing-bar { background: var(--grad-violet); border-radius: 4px; height: 8px; }
+.spacing-label { font-size: 12px; color: var(--text-secondary); font-weight: 700; }
+
+/* RADIUS */
+.radius-box { background: var(--bg-elevated); height: 72px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--text-secondary); }
+
+/* SHADOW */
+.shadow-demo { background: var(--bg-card); padding: 20px 24px; text-align: center; font-size: 12px; font-weight: 700; color: var(--text-secondary); }
+
+/* BUTTONS */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: var(--r-pill); font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; border: none; transition: all var(--dur-gentle) var(--ease-spring); }
+.btn i { font-size: 16px; }
+.btn-primary { background: var(--grad-violet); color: white; }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-glow); }
+.btn-sky { background: var(--grad-sky); color: #1a2a3a; }
+.btn-peach { background: var(--grad-peach); color: #2a1a0e; }
+.btn-ghost { background: transparent; color: var(--primary-light); border: 1.5px solid rgba(123,97,255,0.3); }
+.btn-ghost:hover { background: rgba(123,97,255,0.1); }
+.btn-outline { background: transparent; color: var(--text-secondary); border: 1.5px solid var(--border); }
+.btn-sm { padding: 8px 16px; font-size: 13px; }
+.btn-disabled { background: var(--bg-elevated); color: var(--text-muted); cursor: not-allowed; opacity: 0.5; }
+
+/* CHIPS */
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: var(--r-pill); font-size: 12px; font-weight: 700; background: var(--bg-chip); color: var(--text-secondary); cursor: pointer; transition: all var(--dur-calm); border: 1.5px solid transparent; }
+.chip.active { background: rgba(123,97,255,0.18); color: var(--primary-light); border-color: rgba(123,97,255,0.3); }
+.chip i { font-size: 13px; }
+.chip-sky.active { background: rgba(91,192,235,0.15); color: var(--secondary-blue); border-color: rgba(91,192,235,0.3); }
+.chip-green.active { background: rgba(110,231,183,0.15); color: var(--secondary-green); border-color: rgba(110,231,183,0.3); }
+.chip-peach.active { background: rgba(255,180,162,0.15); color: var(--accent-peach); border-color: rgba(255,180,162,0.3); }
+
+/* ===========================
+   BOTTOM NAVIGATION
+=========================== */
+.bnav-showcase { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+.bnav-wrapper { display: flex; flex-direction: column; gap: 12px; }
+.bnav-app-label { font-size: 12px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; text-align: center; }
+.bnav-phone-frame { background: var(--bg-base); border: 2px solid var(--border); border-radius: 28px; overflow: hidden; width: 100%; aspect-ratio: 9/5; position: relative; display: flex; flex-direction: column; justify-content: flex-end; min-height: 120px; }
+[data-theme="light"] .bnav-phone-frame { background: #E8E9F0; }
+.bnav-screen-bg { flex: 1; background: repeating-linear-gradient(135deg, transparent 0px, transparent 8px, rgba(255,255,255,0.015) 8px, rgba(255,255,255,0.015) 16px); }
+
+/* The actual bottom nav bar — reference style: floating pill */
+.bottom-nav {
+  display: flex; align-items: center; justify-content: space-around;
+  background: var(--bg-elevated);
+  margin: 0 10px 10px;
+  padding: 8px 4px;
+  border-radius: var(--r-xl);
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.35), 0 1px 0 rgba(255,255,255,0.05) inset;
+  position: relative;
+  z-index: 10;
+}
+.bnav-item {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  flex: 1; padding: 6px 4px; border-radius: 14px; cursor: pointer;
+  transition: all var(--dur-gentle) var(--ease-spring); position: relative;
+}
+.bnav-item.active-violet { background: rgba(123,97,255,0.2); }
+.bnav-item.active-sky { background: rgba(91,192,235,0.18); }
+.bnav-item.active-peach { background: rgba(255,180,162,0.2); }
+.bnav-item i {
+  font-size: 18px; color: var(--text-muted); transition: color var(--dur-calm), transform var(--dur-gentle) var(--ease-spring);
+}
+.bnav-item.active-violet i { color: var(--primary-light); transform: scale(1.12); }
+.bnav-item.active-sky i { color: var(--secondary-blue); transform: scale(1.12); }
+.bnav-item.active-peach i { color: var(--accent-peach); transform: scale(1.12); }
+.bnav-label { font-size: 9px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.02em; text-align: center; line-height: 1; }
+.bnav-item.active-violet .bnav-label { color: var(--primary-light); }
+.bnav-item.active-sky .bnav-label { color: var(--secondary-blue); }
+.bnav-item.active-peach .bnav-label { color: var(--accent-peach); }
+.bnav-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--primary); position: absolute; bottom: 3px; left: 50%; transform: translateX(-50%); opacity: 0; transition: opacity var(--dur-calm); }
+.bnav-item.active-violet .bnav-dot { opacity: 1; background: var(--primary-light); }
+
+/* Full-size bottom nav display */
+.bnav-full { display: flex; flex-direction: column; gap: 16px; }
+.bnav-full-inner { display: flex; align-items: center; justify-content: space-around; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: var(--r-2xl); padding: 10px 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+.bnav-full-item { display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 10px 20px; border-radius: var(--r-xl); cursor: pointer; transition: all var(--dur-gentle) var(--ease-spring); flex: 1; }
+.bnav-full-item i { font-size: 22px; color: var(--text-muted); transition: all var(--dur-calm); }
+.bnav-full-item span { font-size: 11px; font-weight: 800; color: var(--text-muted); white-space: nowrap; }
+.bnav-full-item.av { background: rgba(123,97,255,0.15); }
+.bnav-full-item.av i { color: var(--primary-light); }
+.bnav-full-item.av span { color: var(--primary-light); }
+.bnav-full-item.as { background: rgba(91,192,235,0.13); }
+.bnav-full-item.as i { color: var(--secondary-blue); }
+.bnav-full-item.as span { color: var(--secondary-blue); }
+.bnav-full-item.ap { background: rgba(255,180,162,0.15); }
+.bnav-full-item.ap i { color: var(--accent-peach); }
+.bnav-full-item.ap span { color: var(--accent-peach); }
+
+/* FAB */
+.fab { width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; box-shadow: var(--shadow-glow); transition: all var(--dur-gentle) var(--ease-spring); font-size: 24px; color: white; }
+.fab:hover { transform: scale(1.08) rotate(5deg); }
+.fab-violet { background: var(--grad-violet); }
+.fab-sky { background: var(--grad-sky); color: #1a2a3a; }
+.fab-peach { background: var(--grad-peach); color: #2a1a0e; }
+.fab-danger { background: linear-gradient(135deg, #FF6B6B, #FF9A9A); }
+
+/* FEED CARD */
+.feed-card { background: var(--bg-card); border-radius: var(--r-xl); border: 1px solid var(--border); overflow: hidden; }
+.feed-header { padding: 14px 16px 10px; display: flex; align-items: flex-start; gap: 10px; }
+.feed-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: white; flex-shrink: 0; }
+.feed-meta { flex: 1; }
+.feed-name { font-size: 13px; font-weight: 800; }
+.feed-time { font-size: 11px; color: var(--text-muted); }
+.feed-type-badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: var(--r-pill); font-size: 10px; font-weight: 800; margin-bottom: 8px; }
+.feed-body { padding: 0 16px 12px; font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+.feed-media { background: var(--bg-elevated); height: 120px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 13px; gap: 8px; }
+.feed-actions { padding: 10px 16px; display: flex; align-items: center; gap: 8px; border-top: 1px solid var(--border); }
+.feed-action-btn { display: inline-flex; align-items: center; gap: 5px; padding: 6px 12px; border-radius: var(--r-pill); font-size: 12px; font-weight: 700; color: var(--text-secondary); background: var(--bg-chip); cursor: pointer; border: none; transition: all var(--dur-calm); }
+.feed-action-btn:hover { color: var(--primary-light); background: rgba(123,97,255,0.12); }
+.feed-action-btn i { font-size: 14px; }
+
+/* STATUS CARD */
+.status-row { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: var(--r-lg); background: var(--bg-elevated); margin-bottom: 6px; }
+.status-avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; color: white; }
+.status-name { font-size: 13px; font-weight: 700; flex: 1; }
+.status-badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: var(--r-pill); font-size: 11px; font-weight: 800; }
+.badge-present { background: rgba(110,231,183,0.15); color: var(--secondary-green); }
+.badge-absent { background: rgba(255,107,107,0.15); color: var(--error); }
+.badge-late { background: rgba(255,224,102,0.15); color: var(--warning); }
+.badge-info { background: rgba(91,192,235,0.15); color: var(--info); }
+
+/* SUMMARY CARD */
+.metric-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; }
+.metric-box { background: var(--bg-elevated); border-radius: var(--r-md); padding: 12px 8px; text-align: center; }
+.metric-icon { font-size: 18px; margin-bottom: 4px; display: flex; justify-content: center; }
+.metric-icon i { color: var(--primary-light); }
+.metric-num { font-size: 22px; font-weight: 900; font-family: 'Plus Jakarta Sans', sans-serif; }
+.metric-label { font-size: 10px; color: var(--text-muted); font-weight: 700; margin-top: 2px; }
+
+/* NOTIFICATIONS */
+.notif-row { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border-radius: var(--r-lg); margin-bottom: 6px; background: var(--bg-card); border: 1px solid var(--border); transition: all var(--dur-calm); }
+.notif-row:hover { border-color: rgba(123,97,255,0.2); background: rgba(123,97,255,0.04); }
+.notif-icon { width: 40px; height: 40px; border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.notif-icon i { color: white; }
+.notif-icon.ni-success { background: rgba(110,231,183,0.2); }
+.notif-icon.ni-success i { color: var(--secondary-green); }
+.notif-icon.ni-bus { background: rgba(91,192,235,0.2); }
+.notif-icon.ni-bus i { color: var(--secondary-blue); }
+.notif-icon.ni-photo { background: rgba(123,97,255,0.2); }
+.notif-icon.ni-photo i { color: var(--primary-light); }
+.notif-icon.ni-msg { background: rgba(255,180,162,0.2); }
+.notif-icon.ni-msg i { color: var(--accent-peach); }
+.notif-content { flex: 1; }
+.notif-title { font-size: 13px; font-weight: 800; margin-bottom: 3px; }
+.notif-body { font-size: 12px; color: var(--text-secondary); line-height: 1.4; }
+.notif-time { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+
+/* MOTION */
+@keyframes soft-bounce { 0%,100%{transform:scale(1)} 40%{transform:scale(1.15)} 60%{transform:scale(0.97)} }
+@keyframes gentle-shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-5px)} 40%{transform:translateX(5px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
+@keyframes calm-float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+@keyframes spin-calm { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+@keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+.motion-bounce { animation: soft-bounce 550ms var(--ease-spring); }
+.motion-shake { animation: gentle-shake 450ms ease-in-out; }
+.motion-float { animation: calm-float 3.5s ease-in-out infinite; }
+.spin-anim { animation: spin-calm 1.1s linear infinite; }
+.shimmer-anim { background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-chip) 50%, var(--bg-elevated) 75%); background-size: 200% 100%; animation: shimmer 2s linear infinite; border-radius: var(--r-md); }
+.motion-tile { background: var(--bg-card); border-radius: var(--r-xl); border: 1px solid var(--border); padding: 28px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; cursor: pointer; aspect-ratio: 1; font-size: 32px; }
+.motion-tile:hover .motion-icon { animation: soft-bounce 550ms var(--ease-spring); }
+.motion-label { font-size: 12px; font-weight: 800; color: var(--text-secondary); text-align: center; }
+.motion-sub { font-size: 10px; color: var(--text-muted); font-family: monospace; }
+
+/* STATES */
+.empty-state { background: var(--bg-card); border-radius: var(--r-xl); border: 1px dashed var(--border); padding: 40px 24px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.empty-icon { width: 60px; height: 60px; border-radius: 50%; background: var(--bg-elevated); display: flex; align-items: center; justify-content: center; font-size: 24px; }
+.empty-icon i { color: var(--primary-light); }
+.empty-title { font-size: 14px; font-weight: 800; }
+.empty-desc { font-size: 12px; color: var(--text-secondary); max-width: 200px; line-height: 1.5; }
+.error-state { border-color: rgba(255,107,107,0.2); }
+.error-state .empty-icon { background: rgba(255,107,107,0.1); }
+.error-state .empty-icon i { color: var(--error); }
+
+/* ===========================
+   PHONE FRAME / SCREENS
+=========================== */
+.screens-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+.phone-wrap { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.phone-label { font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+.phone-frame {
+  width: 100%; max-width: 260px;
+  background: #0D0D12; border: 2px solid #2a2a35; border-radius: 40px;
+  overflow: hidden; position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04) inset;
+  aspect-ratio: 9/19.5;
+  display: flex; flex-direction: column;
+}
+[data-theme="light"] .phone-frame { background: #F0F1F8; border-color: #D0D0E0; }
+.phone-notch { height: 28px; background: #0D0D12; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; flex-shrink: 0; }
+[data-theme="light"] .phone-notch { background: #F0F1F8; }
+.phone-time { font-size: 11px; font-weight: 800; color: var(--text-primary); }
+.phone-icons { display: flex; gap: 5px; align-items: center; }
+.phone-icons i { font-size: 10px; color: var(--text-primary); }
+.phone-content { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+.phone-content::-webkit-scrollbar { display: none; }
+
+/* Screen content styles */
+.pscreen { flex: 1; padding: 16px 14px 0; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+.pscreen-greeting { font-family: 'Plus Jakarta Sans', sans-serif; }
+.pscreen-greeting .hey { font-size: 13px; color: var(--text-secondary); font-weight: 600; }
+.pscreen-greeting .name { font-size: 20px; font-weight: 800; line-height: 1.15; }
+.pscreen-greeting .name span { background: var(--grad-violet); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.p-card { background: var(--bg-card); border-radius: var(--r-lg); padding: 12px; border: 1px solid var(--border); }
+[data-theme="light"] .p-card { background: #FFFFFF; }
+.p-card-title { font-size: 10px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+.p-card-title i { color: var(--primary-light); }
+.p-metric-row { display: flex; gap: 6px; }
+.p-metric { flex: 1; background: var(--bg-elevated); border-radius: var(--r-md); padding: 8px 6px; text-align: center; }
+[data-theme="light"] .p-metric { background: #F0F1F8; }
+.p-metric i { font-size: 16px; margin-bottom: 3px; display: block; }
+.p-metric .mnum { font-size: 16px; font-weight: 900; font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1; }
+.p-metric .mlabel { font-size: 8px; font-weight: 700; color: var(--text-muted); margin-top: 2px; }
+.p-quick-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.p-qa { background: var(--bg-elevated); border-radius: var(--r-md); padding: 10px 8px; display: flex; flex-direction: column; gap: 5px; cursor: pointer; transition: all var(--dur-calm); border: 1px solid var(--border); }
+[data-theme="light"] .p-qa { background: #F0F1F8; }
+.p-qa:hover { border-color: rgba(123,97,255,0.2); }
+.p-qa i { font-size: 18px; color: var(--primary-light); }
+.p-qa .qa-label { font-size: 9px; font-weight: 800; color: var(--text-secondary); line-height: 1.2; }
+.p-schedule-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: var(--bg-elevated); border-radius: var(--r-md); border-left: 3px solid var(--primary); }
+[data-theme="light"] .p-schedule-item { background: #F0F1F8; }
+.p-sched-time { font-size: 9px; font-weight: 800; color: var(--primary-light); width: 44px; flex-shrink: 0; }
+.p-sched-label { font-size: 11px; font-weight: 700; }
+.p-sched-icon { margin-left: auto; }
+.p-sched-icon i { font-size: 13px; color: var(--text-muted); }
+.p-bus-card { background: var(--grad-sky); border-radius: var(--r-lg); padding: 12px; }
+.p-bus-card .btitle { font-size: 11px; font-weight: 800; color: rgba(30,60,80,0.7); margin-bottom: 4px; display: flex; align-items: center; gap: 5px; }
+.p-bus-card .bstatus { font-size: 17px; font-weight: 900; color: #1a3a4a; font-family: 'Plus Jakarta Sans', sans-serif; }
+.p-bus-card .bmeta { font-size: 10px; color: rgba(30,60,80,0.7); margin-top: 3px; }
+.p-bus-card .btrack-btn { margin-top: 8px; background: rgba(30,60,80,0.2); border-radius: var(--r-pill); padding: 6px 12px; font-size: 10px; font-weight: 800; color: #1a3a4a; display: inline-flex; align-items: center; gap: 5px; border: none; cursor: pointer; }
+.p-bus-card .btrack-btn i { font-size: 11px; }
+.p-student-row { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: var(--bg-elevated); border-radius: var(--r-md); }
+[data-theme="light"] .p-student-row { background: #F0F1F8; }
+.p-student-av { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; color: white; flex-shrink: 0; }
+.p-student-name { font-size: 12px; font-weight: 700; flex: 1; }
+.p-student-badge { font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: var(--r-pill); }
+.p-fee-row { display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: var(--bg-elevated); border-radius: var(--r-md); border: 1px solid var(--border); }
+[data-theme="light"] .p-fee-row { background: #F0F1F8; }
+.p-fee-icon { width: 32px; height: 32px; border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; font-size: 14px; }
+.p-fee-label { font-size: 12px; font-weight: 700; flex: 1; }
+.p-fee-amount { font-size: 12px; font-weight: 800; }
+.p-fee-due { color: var(--warning); }
+.p-fee-paid { color: var(--success); }
+.trip-status-card { background: var(--bg-elevated); border-radius: var(--r-lg); padding: 16px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.trip-status-label { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); }
+.trip-status-title { font-size: 18px; font-weight: 900; font-family: 'Plus Jakarta Sans', sans-serif; }
+.trip-status-sub { font-size: 11px; color: var(--text-secondary); }
+.trip-start-btn { background: var(--grad-violet); color: white; border: none; border-radius: var(--r-pill); padding: 12px 32px; font-size: 13px; font-weight: 800; cursor: pointer; width: 100%; margin-top: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: 'Nunito', sans-serif; }
+.trip-start-btn i { font-size: 16px; }
+.sos-btn { background: rgba(255,107,107,0.15); color: var(--error); border: 1.5px solid rgba(255,107,107,0.3); border-radius: var(--r-pill); padding: 10px 20px; font-size: 12px; font-weight: 800; cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px; font-family: 'Nunito', sans-serif; }
+.sos-btn i { font-size: 14px; }
+.pickup-list { display: flex; flex-direction: column; gap: 6px; }
+.pickup-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: var(--bg-elevated); border-radius: var(--r-md); border: 1px solid var(--border); }
+[data-theme="light"] .pickup-item { background: #F0F1F8; }
+.pickup-item i.check { font-size: 16px; color: var(--secondary-green); }
+.pickup-item i.uncheck { font-size: 16px; color: var(--text-muted); }
+.pickup-name { font-size: 11px; font-weight: 700; flex: 1; }
+.map-placeholder { background: var(--bg-elevated); border-radius: var(--r-lg); height: 100px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); position: relative; overflow: hidden; }
+[data-theme="light"] .map-placeholder { background: #E8F4E8; }
+.map-placeholder::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 20px, rgba(123,97,255,0.05) 20px, rgba(123,97,255,0.05) 21px), repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(123,97,255,0.05) 20px, rgba(123,97,255,0.05) 21px); }
+.map-pin { background: var(--primary); width: 28px; height: 28px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-glow); }
+.map-pin-inner { width: 10px; height: 10px; background: white; border-radius: 50%; transform: rotate(45deg); }
+.p-bottom-nav { flex-shrink: 0; display: flex; align-items: center; justify-content: space-around; background: var(--bg-elevated); margin: 8px 8px 10px; border-radius: 18px; border: 1px solid var(--border); padding: 8px 4px; box-shadow: 0 4px 16px rgba(0,0,0,0.25); }
+[data-theme="light"] .p-bottom-nav { background: #ECEDF5; border-color: rgba(0,0,0,0.07); }
+.p-nav-item { display: flex; flex-direction: column; align-items: center; gap: 2px; flex: 1; padding: 5px 2px; border-radius: 12px; cursor: pointer; transition: all var(--dur-gentle) var(--ease-spring); }
+.p-nav-item i { font-size: 16px; color: var(--text-muted); transition: all var(--dur-calm); }
+.p-nav-item span { font-size: 7px; font-weight: 800; color: var(--text-muted); text-align: center; line-height: 1; }
+.p-nav-item.pnav-active-v { background: rgba(123,97,255,0.18); }
+.p-nav-item.pnav-active-v i { color: var(--primary-light); }
+.p-nav-item.pnav-active-v span { color: var(--primary-light); }
+.p-nav-item.pnav-active-s { background: rgba(91,192,235,0.15); }
+.p-nav-item.pnav-active-s i { color: var(--secondary-blue); }
+.p-nav-item.pnav-active-s span { color: var(--secondary-blue); }
+.p-nav-item.pnav-active-g { background: rgba(110,231,183,0.15); }
+.p-nav-item.pnav-active-g i { color: var(--secondary-green); }
+.p-nav-item.pnav-active-g span { color: var(--secondary-green); }
+.p-nav-item.pnav-active-p { background: rgba(255,180,162,0.15); }
+.p-nav-item.pnav-active-p i { color: var(--accent-peach); }
+.p-nav-item.pnav-active-p span { color: var(--accent-peach); }
+
+/* GRADIENT CARDS for summary */
+.grad-metric-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; }
+.grad-metric { padding: 10px 8px; border-radius: var(--r-md); text-align: center; display: flex; flex-direction: column; gap: 3px; }
+.grad-metric i { font-size: 15px; margin-bottom: 2px; display: block; }
+.grad-metric .gnum { font-size: 18px; font-weight: 900; font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1; }
+.grad-metric .glabel { font-size: 8px; font-weight: 700; opacity: 0.7; }
+.gm-green { background: rgba(110,231,183,0.15); }
+.gm-green i, .gm-green .gnum { color: var(--secondary-green); }
+.gm-red { background: rgba(255,107,107,0.15); }
+.gm-red i, .gm-red .gnum { color: var(--error); }
+.gm-yellow { background: rgba(255,224,102,0.15); }
+.gm-yellow i, .gm-yellow .gnum { color: var(--warning); }
+.gm-blue { background: rgba(91,192,235,0.15); }
+.gm-blue i, .gm-blue .gnum { color: var(--secondary-blue); }
+.gm-violet { background: rgba(123,97,255,0.15); }
+.gm-violet i, .gm-violet .gnum { color: var(--primary-light); }
+
+/* TOKENS TABLE */
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; padding: 10px 14px; font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; border-bottom: 1px solid var(--border); }
+td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text-secondary); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; }
+td:first-child { font-family: monospace; font-size: 12px; color: var(--primary-light); }
+tr:hover td { background: rgba(123,97,255,0.04); }
+code { background: var(--bg-elevated); padding: 2px 8px; border-radius: 6px; font-family: monospace; font-size: 12px; color: var(--accent-peach); }
+
+/* ICON GUIDE */
+.icon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px,1fr)); gap: 8px; }
+.icon-item { background: var(--bg-elevated); border-radius: var(--r-md); padding: 12px 8px; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; transition: all var(--dur-calm); border: 1px solid transparent; }
+.icon-item:hover { border-color: rgba(123,97,255,0.3); background: rgba(123,97,255,0.08); }
+.icon-item i { font-size: 22px; color: var(--text-primary); }
+.icon-item.active-icon i { color: var(--primary-light); }
+.icon-item span { font-size: 9px; font-weight: 700; color: var(--text-muted); text-align: center; line-height: 1.3; }
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bg-chip); border-radius: 4px; }
+
+/* TOKEN CODE BLOCK */
+.code-block { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-xl); padding: 28px; overflow-x: auto; }
+.code-block pre { font-family: 'Courier New', monospace; font-size: 12px; line-height: 1.7; color: var(--text-secondary); white-space: pre; }
+.code-block pre .cm { color: var(--text-muted); }
+.code-block pre .ck { color: var(--primary-light); }
+.code-block pre .cv { color: var(--accent-yellow); }
+.code-block pre .cs { color: var(--secondary-green); }
+
+/* GRADIENT CARDS DEMO */
+.grad-card-inner { display: flex; align-items: center; gap: 12px; }
+.grad-card-icon { font-size: 28px; }
+.grad-card-title { font-size: 16px; font-weight: 800; margin-bottom: 2px; }
+.grad-card-sub { font-size: 12px; opacity: 0.75; }
+
+/* Responsive */
+@media(max-width:900px) {
+  .sidebar { display: none; }
+  .main { margin-left: 0; }
+  .screens-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">🌸 Blossom</div>
+  <div class="sidebar-sub">Foundation</div>
+  <a href="#colors"><i class="ph ph-circles-four"></i> Colors & Gradients</a>
+  <a href="#typography"><i class="ph ph-text-t"></i> Typography</a>
+  <a href="#spacing"><i class="ph ph-arrows-out-line-horizontal"></i> Spacing</a>
+  <a href="#radius"><i class="ph ph-corners-out"></i> Radius</a>
+  <a href="#shadows"><i class="ph ph-stack"></i> Shadows</a>
+  <div class="sidebar-sub">Components</div>
+  <a href="#cards"><i class="ph ph-cards"></i> Cards</a>
+  <a href="#buttons"><i class="ph ph-cursor-click"></i> Buttons</a>
+  <a href="#chips"><i class="ph ph-tag"></i> Chips</a>
+  <a href="#navigation"><i class="ph ph-navigation-arrow"></i> Navigation</a>
+  <a href="#icons"><i class="ph ph-grid-four"></i> Icon Guide</a>
+  <a href="#fab"><i class="ph ph-plus-circle"></i> FAB</a>
+  <a href="#feedcard"><i class="ph ph-newspaper"></i> Feed Card</a>
+  <a href="#statuscard"><i class="ph ph-check-circle"></i> Status Card</a>
+  <a href="#summarycard"><i class="ph ph-chart-bar"></i> Summary Card</a>
+  <a href="#notifications"><i class="ph ph-bell"></i> Notifications</a>
+  <div class="sidebar-sub">System</div>
+  <a href="#motion"><i class="ph ph-sparkle"></i> Motion</a>
+  <a href="#states"><i class="ph ph-warning-circle"></i> States</a>
+  <a href="#patterns"><i class="ph ph-device-mobile"></i> Screen Patterns</a>
+  <a href="#tokens"><i class="ph ph-code"></i> Figma Tokens</a>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-title">Blossom — Soft Future System v1</div>
+    <button class="theme-toggle" onclick="toggleTheme()">
+      <i class="ph ph-moon-stars" id="theme-icon"></i>
+      <span id="theme-label">Dark</span>
+    </button>
+  </div>
+
+  <!-- 01 COLORS -->
+  <section id="colors">
+    <div class="section-num">01</div>
+    <div class="section-label">Foundation</div>
+    <h2 class="section-title">Color System</h2>
+    <p class="section-desc">Soft violets, sky blues, and mint greens form a palette that feels trustworthy and warm. Gradient pairs create organic depth. All colors are accessible and calm.</p>
+    <h4 style="font-size:12px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;">Primary Palette</h4>
+    <div class="grid-4" style="margin-bottom:24px;">
+      <div class="swatch" style="background:#7B61FF"><div class="swatch-label">primary/main</div><div class="swatch-hex">#7B61FF</div></div>
+      <div class="swatch" style="background:#A89BFF"><div class="swatch-label" style="color:#3a2a70">primary/light</div><div class="swatch-hex" style="color:#3a2a70">#A89BFF</div></div>
+      <div class="swatch" style="background:#6A52E0"><div class="swatch-label">primary/pressed</div><div class="swatch-hex">#6A52E0</div></div>
+      <div class="swatch" style="background:#5BC0EB; color:#0a2a3a"><div class="swatch-label">secondary/blue</div><div class="swatch-hex">#5BC0EB</div></div>
+      <div class="swatch" style="background:#6EE7B7; color:#0a2a1a"><div class="swatch-label">secondary/green</div><div class="swatch-hex">#6EE7B7</div></div>
+      <div class="swatch" style="background:#FFB4A2; color:#3a1a0a"><div class="swatch-label">accent/peach</div><div class="swatch-hex">#FFB4A2</div></div>
+      <div class="swatch" style="background:#FFE066; color:#2a2000"><div class="swatch-label">accent/yellow</div><div class="swatch-hex">#FFE066</div></div>
+      <div class="swatch" style="background:#FF6B6B"><div class="swatch-label">semantic/error</div><div class="swatch-hex">#FF6B6B</div></div>
+    </div>
+    <h4 style="font-size:12px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;">Gradient System</h4>
+    <div class="grid-3" style="margin-bottom:24px;">
+      <div class="swatch" style="background:var(--grad-violet); height:80px"><div class="swatch-label">Violet Drift — primary</div></div>
+      <div class="swatch" style="background:var(--grad-sky); color:#0a2a3a; height:80px"><div class="swatch-label">Sky Mist — secondary</div></div>
+      <div class="swatch" style="background:var(--grad-peach); color:#2a1a0a; height:80px"><div class="swatch-label">Peach Glow — accent</div></div>
+      <div class="swatch" style="background:var(--grad-lavender); height:80px"><div class="swatch-label">Lavender Sky — soft</div></div>
+      <div class="swatch" style="background:var(--grad-warm); color:#2a1a0a; height:80px"><div class="swatch-label">Warm Haze — emotional</div></div>
+    </div>
+    <h4 style="font-size:12px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;">Gradient Cards</h4>
+    <div class="grid-3">
+      <div class="card card-grad-violet"><div class="grad-card-inner"><div class="grad-card-icon"><i class="ph-fill ph-check-circle" style="font-size:32px;color:white;opacity:.9"></i></div><div><div class="grad-card-title">Attendance Today</div><div style="font-size:24px;font-weight:900;font-family:'Plus Jakarta Sans',sans-serif">22/24</div><div class="grad-card-sub">Kids present ✨</div></div></div></div>
+      <div class="card card-grad-sky"><div class="grad-card-inner"><div class="grad-card-icon"><i class="ph-fill ph-bus" style="font-size:32px;color:#1a3a4a;opacity:.9"></i></div><div><div class="grad-card-title">Bus Status</div><div style="font-size:24px;font-weight:900;font-family:'Plus Jakarta Sans',sans-serif;color:#1a3a4a">8 min</div><div class="grad-card-sub">Arriving soon 🚌</div></div></div></div>
+      <div class="card card-grad-peach"><div class="grad-card-inner"><div class="grad-card-icon"><div style="font-size:32px">😊</div></div><div><div class="grad-card-title">Today's Mood</div><div style="font-size:16px;font-weight:800;color:#2a1a0e">Happy & active!</div></div></div></div>
+    </div>
+  </section>
+
+  <!-- 02 TYPOGRAPHY -->
+  <section id="typography">
+    <div class="section-num">02</div>
+    <div class="section-label">Foundation</div>
+    <h2 class="section-title">Typography</h2>
+    <p class="section-desc">Nunito — a rounded, approachable typeface that reads as friendly and calm. Its rounded terminals reduce tension and feel welcoming to parents and teachers alike.</p>
+    <div>
+      <div class="type-row"><div class="type-meta">text/h1 · 26px · 800</div><div style="font-size:26px;font-weight:800">Your child had a great day ✨</div></div>
+      <div class="type-row"><div class="type-meta">text/h2 · 20px · 700</div><div style="font-size:20px;font-weight:700">Bus is on the way 🚌</div></div>
+      <div class="type-row"><div class="type-meta">text/h3 · 17px · 700</div><div style="font-size:17px;font-weight:700">All activities completed today</div></div>
+      <div class="type-row"><div class="type-meta">text/body · 15px · 500</div><div style="font-size:15px;font-weight:500;color:var(--text-secondary)">Aarav joined the painting session and enjoyed every moment of it.</div></div>
+      <div class="type-row"><div class="type-meta">text/caption · 12px · 600</div><div style="font-size:12px;font-weight:600;color:var(--text-muted)">Activity completed · 10:30 AM</div></div>
+      <div class="type-row"><div class="type-meta">text/micro · 10px · 700</div><div style="font-size:10px;font-weight:700;font-family:monospace;color:var(--text-muted)">Attendance · Today</div></div>
+    </div>
+    <div class="grid-2" style="margin-top:32px;">
+      <div class="card"><div style="font-size:11px;font-weight:800;color:var(--secondary-green);margin-bottom:8px;display:flex;align-items:center;gap:6px"><i class="ph-fill ph-check-circle"></i> DO — Reassuring</div><div style="font-size:14px;color:var(--text-secondary)">"Your child had a wonderful day!"</div></div>
+      <div class="card"><div style="font-size:11px;font-weight:800;color:var(--error);margin-bottom:8px;display:flex;align-items:center;gap:6px"><i class="ph-fill ph-x-circle"></i> AVOID — Technical</div><div style="font-size:14px;color:var(--text-secondary)">"Student attendance record updated."</div></div>
+    </div>
+  </section>
+
+  <!-- 03 SPACING -->
+  <section id="spacing">
+    <div class="section-num">03</div>
+    <div class="section-label">Foundation</div>
+    <h2 class="section-title">Spacing</h2>
+    <p class="section-desc">A consistent 4px base grid. Spacing tokens keep rhythm across all screens.</p>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div class="spacing-row"><div class="spacing-bar" style="width:4px"></div><div class="spacing-label">--s-1 · 4px — micro gap, icon spacing</div></div>
+      <div class="spacing-row"><div class="spacing-bar" style="width:8px"></div><div class="spacing-label">--s-2 · 8px — between elements</div></div>
+      <div class="spacing-row"><div class="spacing-bar" style="width:12px"></div><div class="spacing-label">--s-3 · 12px — card gaps</div></div>
+      <div class="spacing-row"><div class="spacing-bar" style="width:16px"></div><div class="spacing-label">--s-4 · 16px — card padding, margins</div></div>
+      <div class="spacing-row"><div class="spacing-bar" style="width:20px"></div><div class="spacing-label">--s-5 · 20px — component spacing</div></div>
+      <div class="spacing-row"><div class="spacing-bar" style="width:24px"></div><div class="spacing-label">--s-6 · 24px — sections</div></div>
+    </div>
+  </section>
+
+  <!-- 04 RADIUS -->
+  <section id="radius">
+    <div class="section-num">04</div>
+    <div class="section-label">Foundation</div>
+    <h2 class="section-title">Radius — Soft Surfaces</h2>
+    <p class="section-desc">Generously rounded corners signal safety and approachability. Nothing feels sharp or threatening.</p>
+    <div class="grid-5">
+      <div class="radius-box" style="border-radius:10px;border:1.5px solid var(--border)">--r-sm<br>10px</div>
+      <div class="radius-box" style="border-radius:14px;border:1.5px solid var(--border)">--r-md<br>14px</div>
+      <div class="radius-box" style="border-radius:18px;border:1.5px solid var(--border)">--r-lg<br>18px</div>
+      <div class="radius-box" style="border-radius:24px;border:1.5px solid var(--border)">--r-xl<br>24px</div>
+      <div class="radius-box" style="border-radius:9999px;border:1.5px solid var(--border)">--r-pill<br>∞</div>
+    </div>
+  </section>
+
+  <!-- 05 SHADOWS -->
+  <section id="shadows">
+    <div class="section-num">05</div>
+    <div class="section-label">Foundation</div>
+    <h2 class="section-title">Shadow System</h2>
+    <p class="section-desc">Soft, diffused shadows only. No hard drop shadows. Shadows communicate elevation, not drama.</p>
+    <div class="grid-3">
+      <div class="shadow-demo" style="border-radius:var(--r-xl);box-shadow:var(--shadow-card)">shadow/card<br><code>0px 6px 20px rgba(0,0,0,0.08)</code></div>
+      <div class="shadow-demo" style="border-radius:var(--r-xl);box-shadow:var(--shadow-float)">shadow/float<br><code>0px 16px 48px rgba(0,0,0,0.4)</code></div>
+      <div class="shadow-demo" style="border-radius:var(--r-xl);box-shadow:var(--shadow-glow)">shadow/glow<br><code>0 0 32px rgba(123,97,255,0.3)</code></div>
+    </div>
+  </section>
+
+  <!-- 06 CARDS -->
+  <section id="cards">
+    <div class="section-num">06</div>
+    <div class="section-label">Components</div>
+    <h2 class="section-title">Cards — Soft Containers</h2>
+    <p class="section-desc">Cards form the backbone of every screen. Soft radius, gentle border, subtle shadow.</p>
+    <div class="grid-3">
+      <div class="card"><h4 style="font-size:13px;font-weight:800;margin-bottom:6px">This Week</h4><p style="font-size:13px;color:var(--text-secondary);margin-bottom:10px">Aarav is thriving 🌱</p><div style="font-size:12px;color:var(--text-muted)">All 5 days present · 3 star moments</div><div style="font-size:12px;color:var(--text-muted);margin-top:3px">80% activity engagement</div></div>
+      <div class="card card-grad-violet"><div style="font-size:13px;font-weight:800;opacity:.8;margin-bottom:6px">Activity Done!</div><div style="font-size:20px;margin-bottom:6px"><i class="ph-fill ph-palette" style="font-size:32px;opacity:.9"></i></div><div style="font-size:16px;font-weight:800">Art & Craft completed</div></div>
+      <div class="card card-grad-sky"><div style="font-size:13px;font-weight:800;opacity:.7;color:#1a3a4a;margin-bottom:6px">Bus on the way</div><div style="font-size:32px;margin-bottom:6px"><i class="ph-fill ph-bus" style="color:#1a3a4a;opacity:.9"></i></div><div style="font-size:16px;font-weight:800;color:#1a3a4a">Arriving in 8 minutes</div></div>
+    </div>
+  </section>
+
+  <!-- 07 BUTTONS -->
+  <section id="buttons">
+    <div class="section-num">07</div>
+    <div class="section-label">Components</div>
+    <h2 class="section-title">Buttons</h2>
+    <p class="section-desc">Pill-shaped buttons with gradient fills, ghost variants, and accessible states. Every tap should feel satisfying.</p>
+    <div style="margin-bottom:24px">
+      <h4 style="font-size:12px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;">Primary — Gradient Fill</h4>
+      <div style="display:flex;flex-wrap:wrap;gap:10px">
+        <button class="btn btn-primary"><i class="ph-fill ph-check-circle"></i> Mark Attendance</button>
+        <button class="btn btn-sky"><i class="ph-fill ph-bus"></i> Track Bus</button>
+        <button class="btn btn-peach"><i class="ph-fill ph-camera"></i> Share Moment</button>
+      </div>
+    </div>
+    <div style="margin-bottom:24px">
+      <h4 style="font-size:12px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;">Secondary & Ghost</h4>
+      <div style="display:flex;flex-wrap:wrap;gap:10px">
+        <button class="btn btn-ghost"><i class="ph ph-list-bullets"></i> View All Updates</button>
+        <button class="btn btn-outline"><i class="ph ph-chat-circle"></i> Send Message</button>
+        <button class="btn btn-outline"><i class="ph ph-funnel"></i> Filter</button>
+      </div>
+    </div>
+    <div style="margin-bottom:24px">
+      <h4 style="font-size:12px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;">Small / Compact</h4>
+      <div style="display:flex;flex-wrap:wrap;gap:10px">
+        <button class="btn btn-primary btn-sm"><i class="ph-fill ph-check"></i> Confirm</button>
+        <button class="btn btn-sky btn-sm"><i class="ph-fill ph-navigation-arrow"></i> Navigate</button>
+        <button class="btn btn-peach btn-sm"><i class="ph-fill ph-check-fat"></i> Done</button>
+      </div>
+    </div>
+    <div>
+      <h4 style="font-size:12px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;">Disabled</h4>
+      <div style="display:flex;flex-wrap:wrap;gap:10px">
+        <button class="btn btn-disabled" disabled><i class="ph ph-prohibit"></i> Already submitted</button>
+        <button class="btn btn-disabled" disabled><i class="ph ph-x-circle"></i> Unavailable</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 CHIPS -->
+  <section id="chips">
+    <div class="section-num">08</div>
+    <div class="section-label">Components</div>
+    <h2 class="section-title">Chips / Filters</h2>
+    <p class="section-desc">Compact interactive filters. Tap to activate. Subtle highlight state. Used in feeds, attendance, and galleries.</p>
+    <div style="margin-bottom:20px">
+      <h4 style="font-size:12px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;">Feed Filter</h4>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <div class="chip active"><i class="ph-fill ph-squares-four"></i> All Updates</div>
+        <div class="chip chip-sky"><i class="ph ph-palette"></i> Activities</div>
+        <div class="chip chip-violet"><i class="ph ph-camera"></i> Photos</div>
+        <div class="chip chip-peach"><i class="ph ph-fork-knife"></i> Meals</div>
+        <div class="chip"><i class="ph ph-moon"></i> Nap Time</div>
+        <div class="chip chip-sky"><i class="ph ph-bus"></i> Transport</div>
+      </div>
+    </div>
+    <div>
+      <h4 style="font-size:12px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;">Attendance Filter</h4>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <div class="chip chip-green active"><i class="ph-fill ph-check-circle"></i> Present (22)</div>
+        <div class="chip chip-peach"><i class="ph ph-x-circle"></i> Absent (2)</div>
+        <div class="chip chip-sky"><i class="ph ph-clock"></i> Late (1)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 BOTTOM NAVIGATION -->
+  <section id="navigation">
+    <div class="section-num">09</div>
+    <div class="section-label">Components</div>
+    <h2 class="section-title">Bottom Navigation</h2>
+    <p class="section-desc">Floating pill navigator. Filled Phosphor icon for active state, outline for inactive. Gradient-tinted active item. Soft elevation. Each app has its own icon set and accent color.</p>
+
+    <!-- Compact preview in phone frames -->
+    <div class="bnav-showcase" style="margin-bottom:40px">
+      <!-- Teacher -->
+      <div class="bnav-wrapper">
+        <div class="bnav-app-label"><i class="ph-fill ph-chalkboard" style="color:var(--primary-light)"></i> Teacher App</div>
+        <div class="bnav-phone-frame">
+          <div class="bnav-screen-bg"></div>
+          <div class="bottom-nav">
+            <div class="bnav-item active-violet">
+              <i class="ph-fill ph-house"></i>
+              <span class="bnav-label">Home</span>
+              <div class="bnav-dot"></div>
+            </div>
+            <div class="bnav-item">
+              <i class="ph ph-chalkboard"></i>
+              <span class="bnav-label">Classroom</span>
+            </div>
+            <div class="bnav-item">
+              <i class="ph ph-users-three"></i>
+              <span class="bnav-label">Students</span>
+            </div>
+            <div class="bnav-item">
+              <i class="ph ph-user-circle"></i>
+              <span class="bnav-label">Profile</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Parent -->
+      <div class="bnav-wrapper">
+        <div class="bnav-app-label"><i class="ph-fill ph-house-line" style="color:var(--secondary-blue)"></i> Parent App</div>
+        <div class="bnav-phone-frame">
+          <div class="bnav-screen-bg"></div>
+          <div class="bottom-nav">
+            <div class="bnav-item active-sky">
+              <i class="ph-fill ph-house"></i>
+              <span class="bnav-label">Home</span>
+            </div>
+            <div class="bnav-item">
+              <i class="ph ph-book-open"></i>
+              <span class="bnav-label">Classroom</span>
+            </div>
+            <div class="bnav-item">
+              <i class="ph ph-wallet"></i>
+              <span class="bnav-label">Payments</span>
+            </div>
+            <div class="bnav-item">
+              <i class="ph ph-user-circle"></i>
+              <span class="bnav-label">Profile</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Driver -->
+      <div class="bnav-wrapper">
+        <div class="bnav-app-label"><i class="ph-fill ph-bus" style="color:var(--accent-peach)"></i> Driver App</div>
+        <div class="bnav-phone-frame">
+          <div class="bnav-screen-bg"></div>
+          <div class="bottom-nav" style="justify-content:space-around">
+            <div class="bnav-item active-peach">
+              <i class="ph-fill ph-map-trifold"></i>
+              <span class="bnav-label">Route</span>
+            </div>
+            <div class="bnav-item">
+              <i class="ph ph-users"></i>
+              <span class="bnav-label">Kids</span>
+            </div>
+            <div class="bnav-item">
+              <i class="ph ph-bell-ringing"></i>
+              <span class="bnav-label">Alerts</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Full-size nav display -->
+    <h4 style="font-size:12px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:16px;">Full-Size Navigation Reference</h4>
+    <div class="bnav-full" style="max-width:500px">
+      <!-- Teacher Full -->
+      <div>
+        <div style="font-size:11px;font-weight:800;color:var(--primary-light);margin-bottom:8px;display:flex;align-items:center;gap:6px"><i class="ph-fill ph-chalkboard"></i> Teacher App — 4 Tabs</div>
+        <div class="bnav-full-inner">
+          <div class="bnav-full-item av"><i class="ph-fill ph-house"></i><span>Home</span></div>
+          <div class="bnav-full-item"><i class="ph ph-chalkboard"></i><span>My Classroom</span></div>
+          <div class="bnav-full-item"><i class="ph ph-users-three"></i><span>My Students</span></div>
+          <div class="bnav-full-item"><i class="ph ph-user-circle"></i><span>Profile</span></div>
+        </div>
+      </div>
+      <!-- Parent Full -->
+      <div>
+        <div style="font-size:11px;font-weight:800;color:var(--secondary-blue);margin-bottom:8px;display:flex;align-items:center;gap:6px"><i class="ph-fill ph-house-line"></i> Parent App — 4 Tabs</div>
+        <div class="bnav-full-inner">
+          <div class="bnav-full-item as"><i class="ph-fill ph-house"></i><span>Home</span></div>
+          <div class="bnav-full-item"><i class="ph ph-book-open"></i><span>My Classroom</span></div>
+          <div class="bnav-full-item"><i class="ph ph-wallet"></i><span>Fee Payments</span></div>
+          <div class="bnav-full-item"><i class="ph ph-user-circle"></i><span>Profile</span></div>
+        </div>
+      </div>
+      <!-- Driver Full -->
+      <div>
+        <div style="font-size:11px;font-weight:800;color:var(--accent-peach);margin-bottom:8px;display:flex;align-items:center;gap:6px"><i class="ph-fill ph-bus"></i> Driver App — 3 Tabs</div>
+        <div class="bnav-full-inner">
+          <div class="bnav-full-item ap"><i class="ph-fill ph-map-trifold"></i><span>Route</span></div>
+          <div class="bnav-full-item"><i class="ph ph-users"></i><span>Kids</span></div>
+          <div class="bnav-full-item"><i class="ph ph-bell-ringing"></i><span>Alerts</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nav Anatomy -->
+    <div class="card" style="margin-top:28px">
+      <h4 style="font-size:13px;font-weight:800;margin-bottom:16px;display:flex;align-items:center;gap:8px"><i class="ph-fill ph-info" style="color:var(--primary-light)"></i> Navigation Anatomy</h4>
+      <table>
+        <thead><tr><th>State</th><th>Icon Style</th><th>Label Color</th><th>Background</th></tr></thead>
+        <tbody>
+          <tr><td>Active (Teacher)</td><td>ph-fill (filled)</td><td>primary/light #A89BFF</td><td>rgba(123,97,255, 0.18)</td></tr>
+          <tr><td>Active (Parent)</td><td>ph-fill (filled)</td><td>secondary/blue #5BC0EB</td><td>rgba(91,192,235, 0.15)</td></tr>
+          <tr><td>Active (Driver)</td><td>ph-fill (filled)</td><td>accent/peach #FFB4A2</td><td>rgba(255,180,162, 0.18)</td></tr>
+          <tr><td>Inactive</td><td>ph (outline)</td><td>text/muted #555560</td><td>none</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ICON GUIDE -->
+  <section id="icons">
+    <div class="section-num">10</div>
+    <div class="section-label">Components</div>
+    <h2 class="section-title">Icon Guide</h2>
+    <p class="section-desc">Phosphor Icons — dual-weight system. Use <code>ph</code> (outline) for secondary / inactive states and <code>ph-fill</code> (filled) for active / primary states. Emojis are reserved only for mood indicators and celebrations.</p>
+    <div style="margin-bottom:20px">
+      <h4 style="font-size:12px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;">Navigation Icons</h4>
+      <div class="icon-grid">
+        <div class="icon-item active-icon"><i class="ph-fill ph-house"></i><span>Home (active)</span></div>
+        <div class="icon-item"><i class="ph ph-house"></i><span>Home (inactive)</span></div>
+        <div class="icon-item active-icon"><i class="ph-fill ph-chalkboard"></i><span>Classroom</span></div>
+        <div class="icon-item active-icon"><i class="ph-fill ph-users-three"></i><span>Students</span></div>
+        <div class="icon-item active-icon"><i class="ph-fill ph-user-circle"></i><span>Profile</span></div>
+        <div class="icon-item active-icon"><i class="ph-fill ph-wallet"></i><span>Payments</span></div>
+        <div class="icon-item active-icon"><i class="ph-fill ph-map-trifold"></i><span>Route</span></div>
+        <div class="icon-item active-icon"><i class="ph-fill ph-bell-ringing"></i><span>Alerts</span></div>
+        <div class="icon-item active-icon"><i class="ph-fill ph-book-open"></i><span>Classroom (P)</span></div>
+        <div class="icon-item active-icon"><i class="ph-fill ph-users"></i><span>Kids</span></div>
+      </div>
+    </div>
+    <div style="margin-bottom:20px">
+      <h4 style="font-size:12px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;">Action Icons</h4>
+      <div class="icon-grid">
+        <div class="icon-item"><i class="ph ph-check-circle"></i><span>Attendance</span></div>
+        <div class="icon-item"><i class="ph ph-camera"></i><span>Camera</span></div>
+        <div class="icon-item"><i class="ph ph-chat-circle"></i><span>Message</span></div>
+        <div class="icon-item"><i class="ph ph-calendar"></i><span>Calendar</span></div>
+        <div class="icon-item"><i class="ph ph-plus-circle"></i><span>Add</span></div>
+        <div class="icon-item"><i class="ph ph-pencil-simple"></i><span>Edit</span></div>
+        <div class="icon-item"><i class="ph ph-trash"></i><span>Delete</span></div>
+        <div class="icon-item"><i class="ph ph-magnifying-glass"></i><span>Search</span></div>
+        <div class="icon-item"><i class="ph ph-bell"></i><span>Notify</span></div>
+        <div class="icon-item"><i class="ph ph-gear"></i><span>Settings</span></div>
+        <div class="icon-item"><i class="ph ph-arrow-left"></i><span>Back</span></div>
+        <div class="icon-item"><i class="ph ph-dots-three"></i><span>More</span></div>
+        <div class="icon-item"><i class="ph ph-download-simple"></i><span>Download</span></div>
+        <div class="icon-item"><i class="ph ph-share-network"></i><span>Share</span></div>
+        <div class="icon-item"><i class="ph ph-map-pin"></i><span>Location</span></div>
+        <div class="icon-item"><i class="ph ph-phone"></i><span>Call</span></div>
+      </div>
+    </div>
+    <div>
+      <h4 style="font-size:12px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;">Status & Feedback Icons</h4>
+      <div class="icon-grid">
+        <div class="icon-item" style="color:var(--secondary-green)"><i class="ph-fill ph-check-circle" style="color:var(--secondary-green)"></i><span>Present</span></div>
+        <div class="icon-item" style="color:var(--error)"><i class="ph-fill ph-x-circle" style="color:var(--error)"></i><span>Absent</span></div>
+        <div class="icon-item" style="color:var(--warning)"><i class="ph-fill ph-clock" style="color:var(--warning)"></i><span>Late</span></div>
+        <div class="icon-item" style="color:var(--info)"><i class="ph-fill ph-info" style="color:var(--info)"></i><span>Info</span></div>
+        <div class="icon-item" style="color:var(--error)"><i class="ph-fill ph-warning-circle" style="color:var(--error)"></i><span>Error</span></div>
+        <div class="icon-item" style="color:var(--primary-light)"><i class="ph-fill ph-star" style="color:var(--primary-light)"></i><span>Star</span></div>
+        <div class="icon-item"><i class="ph ph-wifi-slash"></i><span>Offline</span></div>
+        <div class="icon-item"><i class="ph ph-cloud-check"></i><span>Synced</span></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:24px;background:rgba(255,224,102,0.05);border-color:rgba(255,224,102,0.15)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><i class="ph-fill ph-warning" style="color:var(--accent-yellow);font-size:18px"></i><span style="font-size:13px;font-weight:800;color:var(--accent-yellow)">Emoji Usage Policy</span></div>
+      <p style="font-size:13px;color:var(--text-secondary);line-height:1.6">Emojis are <strong>only</strong> used for mood indicators (😊😴😢😠), celebrations (🎉✨), and contextual food/activity content. All UI icons — navigation, actions, status indicators — must use Phosphor Icons for visual consistency.</p>
+    </div>
+  </section>
+
+  <!-- 11 FAB -->
+  <section id="fab">
+    <div class="section-num">11</div>
+    <div class="section-label">Components</div>
+    <h2 class="section-title">Floating Action Button</h2>
+    <p class="section-desc">56×56px. Gradient fill. Soft glow. One primary action per screen. Hover to feel the spring.</p>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:center">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+        <button class="fab fab-violet"><i class="ph-fill ph-camera"></i></button>
+        <div style="font-size:11px;font-weight:700;color:var(--text-muted)">Add Photo</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+        <button class="fab fab-sky"><i class="ph-fill ph-chat-circle"></i></button>
+        <div style="font-size:11px;font-weight:700;color:var(--text-muted)">New Message</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+        <button class="fab fab-violet" style="background:var(--grad-lavender)"><i class="ph-fill ph-plus"></i></button>
+        <div style="font-size:11px;font-weight:700;color:var(--text-muted)">Log Activity</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+        <button class="fab fab-danger"><i class="ph-fill ph-siren"></i></button>
+        <div style="font-size:11px;font-weight:700;color:var(--text-muted)">SOS</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 FEED CARD -->
+  <section id="feedcard">
+    <div class="section-num">12</div>
+    <div class="section-label">Components</div>
+    <h2 class="section-title">Feed Card</h2>
+    <p class="section-desc">The primary communication surface. Posts, events, announcements, and activities flow through here.</p>
+    <div class="grid-2">
+      <!-- Photo Feed Card -->
+      <div class="feed-card">
+        <div class="feed-header">
+          <div class="feed-avatar" style="background:var(--grad-violet)">SM</div>
+          <div class="feed-meta">
+            <div class="feed-name">Ms. Sonal Mehta</div>
+            <div class="feed-time">Today · 10:32 AM</div>
+          </div>
+          <i class="ph ph-dots-three" style="font-size:18px;color:var(--text-muted);cursor:pointer"></i>
+        </div>
+        <div style="padding:0 16px 10px">
+          <span class="feed-type-badge" style="background:rgba(123,97,255,0.15);color:var(--primary-light)"><i class="ph-fill ph-camera" style="font-size:11px"></i> Photo</span>
+        </div>
+        <div class="feed-media"><i class="ph ph-image" style="font-size:24px"></i> Art Session Photos</div>
+        <div class="feed-body" style="margin-top:10px">Aarav created the most beautiful finger painting today — he used every color! 🌈</div>
+        <div class="feed-actions">
+          <button class="feed-action-btn"><i class="ph ph-heart"></i> Love</button>
+          <button class="feed-action-btn"><i class="ph ph-chat-circle"></i> Comment</button>
+          <button class="feed-action-btn" style="margin-left:auto"><i class="ph ph-bookmark"></i></button>
+        </div>
+      </div>
+      <!-- Attendance Update -->
+      <div class="feed-card">
+        <div class="feed-header">
+          <div class="feed-avatar" style="background:var(--grad-sky);color:#1a3a4a">AT</div>
+          <div class="feed-meta">
+            <div class="feed-name">Attendance Update</div>
+            <div class="feed-time">Today · 8:45 AM</div>
+          </div>
+        </div>
+        <div style="padding:0 16px 10px">
+          <span class="feed-type-badge" style="background:rgba(110,231,183,0.15);color:var(--secondary-green)"><i class="ph-fill ph-check-circle" style="font-size:11px"></i> Check-In</span>
+        </div>
+        <div style="background:rgba(110,231,183,0.08);border-radius:var(--r-lg);margin:0 16px 12px;padding:14px;display:flex;align-items:center;gap:12px;border:1px solid rgba(110,231,183,0.15)">
+          <i class="ph-fill ph-check-circle" style="font-size:28px;color:var(--secondary-green)"></i>
+          <div>
+            <div style="font-size:14px;font-weight:800">Safely checked in!</div>
+            <div style="font-size:12px;color:var(--text-secondary);margin-top:2px">Aarav arrived at school · 8:42 AM</div>
+          </div>
+        </div>
+        <div class="feed-actions">
+          <button class="feed-action-btn"><i class="ph ph-eye"></i> View Details</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13 STATUS CARD -->
+  <section id="statuscard">
+    <div class="section-num">13</div>
+    <div class="section-label">Components</div>
+    <h2 class="section-title">Status Card</h2>
+    <p class="section-desc">Real-time status rows for attendance and mood. Live badges for at-a-glance scanning.</p>
+    <div class="grid-2">
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <span style="font-size:13px;font-weight:800">Class · Today</span>
+          <span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:var(--secondary-green);background:rgba(110,231,183,0.12);padding:4px 10px;border-radius:var(--r-pill)"><i class="ph-fill ph-circle" style="font-size:8px"></i> Live</span>
+        </div>
+        <div class="status-row"><div class="status-avatar" style="background:var(--grad-violet)">AS</div><div class="status-name">Aarav Sharma</div><div style="font-size:18px">😊</div><span class="status-badge badge-present"><i class="ph-fill ph-check" style="font-size:10px"></i> Present</span></div>
+        <div class="status-row"><div class="status-avatar" style="background:var(--grad-sky);color:#1a3a4a">PK</div><div class="status-name">Priya Kumar</div><div style="font-size:18px">😴</div><span class="status-badge badge-late"><i class="ph-fill ph-clock" style="font-size:10px"></i> Late</span></div>
+        <div class="status-row"><div class="status-avatar" style="background:var(--grad-peach);color:#2a1a0e">RG</div><div class="status-name">Riya Gupta</div><div style="font-size:18px">🤒</div><span class="status-badge badge-absent"><i class="ph-fill ph-x" style="font-size:10px"></i> Absent</span></div>
+      </div>
+      <div class="card">
+        <div style="font-size:13px;font-weight:800;margin-bottom:14px">Aarav's Mood</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px">Updated just now</div>
+        <div style="display:flex;gap:8px;margin-bottom:14px">
+          <div style="flex:1;background:rgba(110,231,183,0.12);border-radius:var(--r-lg);padding:10px;text-align:center;border:2px solid rgba(110,231,183,0.3)"><div style="font-size:22px;margin-bottom:4px">😊</div><div style="font-size:10px;font-weight:700;color:var(--secondary-green)">Happy</div></div>
+          <div style="flex:1;background:var(--bg-elevated);border-radius:var(--r-lg);padding:10px;text-align:center;border:2px solid transparent"><div style="font-size:22px;margin-bottom:4px">😐</div><div style="font-size:10px;font-weight:700;color:var(--text-muted)">Okay</div></div>
+          <div style="flex:1;background:var(--bg-elevated);border-radius:var(--r-lg);padding:10px;text-align:center;border:2px solid transparent"><div style="font-size:22px;margin-bottom:4px">😢</div><div style="font-size:10px;font-weight:700;color:var(--text-muted)">Sad</div></div>
+          <div style="flex:1;background:var(--bg-elevated);border-radius:var(--r-lg);padding:10px;text-align:center;border:2px solid transparent"><div style="font-size:22px;margin-bottom:4px">😠</div><div style="font-size:10px;font-weight:700;color:var(--text-muted)">Upset</div></div>
+        </div>
+        <div style="background:var(--bg-elevated);border-radius:var(--r-md);padding:10px;font-size:12px;color:var(--text-secondary);font-style:italic">"He was full of energy during story time! 📖"</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 SUMMARY CARD -->
+  <section id="summarycard">
+    <div class="section-num">14</div>
+    <div class="section-label">Components</div>
+    <h2 class="section-title">Summary Card</h2>
+    <p class="section-desc">At-a-glance metric dashboards for Teacher, Parent, and Driver contexts.</p>
+    <div class="grid-3">
+      <div class="card">
+        <div style="font-size:11px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;display:flex;align-items:center;gap:6px"><i class="ph-fill ph-chart-bar" style="color:var(--primary-light)"></i> Today's Class</div>
+        <div class="metric-grid">
+          <div class="metric-box"><div class="metric-icon"><i class="ph-fill ph-check-circle" style="color:var(--secondary-green)"></i></div><div class="metric-num" style="color:var(--secondary-green)">22</div><div class="metric-label">Present</div></div>
+          <div class="metric-box"><div class="metric-icon"><i class="ph-fill ph-x-circle" style="color:var(--error)"></i></div><div class="metric-num" style="color:var(--error)">2</div><div class="metric-label">Absent</div></div>
+          <div class="metric-box"><div class="metric-icon"><i class="ph-fill ph-clock" style="color:var(--warning)"></i></div><div class="metric-num" style="color:var(--warning)">1</div><div class="metric-label">Late</div></div>
+          <div class="metric-box"><div class="metric-icon"><i class="ph-fill ph-palette" style="color:var(--primary-light)"></i></div><div class="metric-num" style="color:var(--primary-light)">3</div><div class="metric-label">Activities</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div style="font-size:11px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;display:flex;align-items:center;gap:6px"><i class="ph-fill ph-star" style="color:var(--accent-yellow)"></i> Aarav This Week</div>
+        <div class="metric-grid">
+          <div class="metric-box"><div class="metric-icon"><i class="ph-fill ph-calendar-check" style="color:var(--secondary-green)"></i></div><div class="metric-num" style="color:var(--secondary-green)">5/5</div><div class="metric-label">Present</div></div>
+          <div class="metric-box"><div class="metric-icon"><i class="ph-fill ph-palette" style="color:var(--primary-light)"></i></div><div class="metric-num" style="color:var(--primary-light)">12</div><div class="metric-label">Activities</div></div>
+          <div class="metric-box"><div class="metric-icon"><div style="font-size:18px">😊</div></div><div class="metric-num" style="color:var(--secondary-green)">4.9</div><div class="metric-label">Mood</div></div>
+          <div class="metric-box"><div class="metric-icon"><i class="ph-fill ph-images" style="color:var(--secondary-blue)"></i></div><div class="metric-num" style="color:var(--secondary-blue)">18</div><div class="metric-label">Photos</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div style="font-size:11px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;display:flex;align-items:center;gap:6px"><i class="ph-fill ph-bus" style="color:var(--accent-peach)"></i> Route Status</div>
+        <div class="metric-grid">
+          <div class="metric-box"><div class="metric-icon"><i class="ph-fill ph-users" style="color:var(--secondary-blue)"></i></div><div class="metric-num" style="color:var(--secondary-blue)">14</div><div class="metric-label">On Board</div></div>
+          <div class="metric-box"><div class="metric-icon"><i class="ph-fill ph-map-pin" style="color:var(--accent-peach)"></i></div><div class="metric-num" style="color:var(--accent-peach)">3</div><div class="metric-label">Stops Left</div></div>
+          <div class="metric-box"><div class="metric-icon"><i class="ph-fill ph-clock" style="color:var(--secondary-green)"></i></div><div class="metric-num" style="color:var(--secondary-green)">8m</div><div class="metric-label">ETA</div></div>
+          <div class="metric-box"><div class="metric-icon"><i class="ph-fill ph-gas-pump" style="color:var(--warning)"></i></div><div class="metric-num" style="color:var(--warning)">78%</div><div class="metric-label">Fuel</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15 NOTIFICATIONS -->
+  <section id="notifications">
+    <div class="section-num">15</div>
+    <div class="section-label">Components</div>
+    <h2 class="section-title">Notifications</h2>
+    <p class="section-desc">Gentle nudges, never alarming. Icon-coded for immediate recognition.</p>
+    <div style="max-width:600px">
+      <div class="notif-row">
+        <div class="notif-icon ni-success"><i class="ph-fill ph-check-circle"></i></div>
+        <div class="notif-content"><div class="notif-title">Aarav had a great day!</div><div class="notif-body">He completed all activities and was happy all day long 😊</div><div class="notif-time">Just now</div></div>
+      </div>
+      <div class="notif-row">
+        <div class="notif-icon ni-bus"><i class="ph-fill ph-bus"></i></div>
+        <div class="notif-content"><div class="notif-title">Bus is on its way</div><div class="notif-body">Bus #12 will arrive in about 5 minutes — get ready!</div><div class="notif-time">4 min ago</div></div>
+      </div>
+      <div class="notif-row">
+        <div class="notif-icon ni-photo"><i class="ph-fill ph-images"></i></div>
+        <div class="notif-content"><div class="notif-title">3 new photos from today</div><div class="notif-body">Ms. Sonal added photos from the art session</div><div class="notif-time">10:45 AM</div></div>
+      </div>
+      <div class="notif-row">
+        <div class="notif-icon ni-msg"><i class="ph-fill ph-chat-circle-text"></i></div>
+        <div class="notif-content"><div class="notif-title">Teacher sent a message</div><div class="notif-body">Ms. Sonal: "Just wanted to share — Aarav was wonderful today!"</div><div class="notif-time">9:30 AM</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16 MOTION -->
+  <section id="motion">
+    <div class="section-num">16</div>
+    <div class="section-label">System</div>
+    <h2 class="section-title">Motion System</h2>
+    <p class="section-desc">All motion is smooth and calm. No jarring transitions. Motion reduces anxiety — it doesn't create it.</p>
+    <div class="grid-3" style="margin-bottom:32px">
+      <div class="motion-tile" onclick="this.querySelector('.motion-icon').style.animation='none';setTimeout(()=>{this.querySelector('.motion-icon').style.animation=''},50)">
+        <div class="motion-icon" style="font-size:32px;transition:all .3s">⭐</div>
+        <div class="motion-label">Success Bounce</div>
+        <div class="motion-sub">soft-bounce · 550ms</div>
+      </div>
+      <div class="motion-tile">
+        <div style="font-size:32px;animation:calm-float 3.5s ease-in-out infinite">🌸</div>
+        <div class="motion-label">Idle Float</div>
+        <div class="motion-sub">calm-float · 3.5s loop</div>
+      </div>
+      <div class="motion-tile">
+        <div style="width:32px;height:32px;border:3px solid var(--primary);border-top-color:transparent;border-radius:50%;animation:spin-calm 1.1s linear infinite"></div>
+        <div class="motion-label">Soft Spinner</div>
+        <div class="motion-sub">ease-in-out · 1.1s</div>
+      </div>
+      <div class="motion-tile">
+        <div style="height:20px;width:160px;border-radius:var(--r-pill)" class="shimmer-anim"></div>
+        <div style="height:12px;width:100px;border-radius:var(--r-pill);margin-top:6px" class="shimmer-anim"></div>
+        <div class="motion-label">Shimmer Load</div>
+        <div class="motion-sub">ease-in-out · 2s loop</div>
+      </div>
+      <div class="motion-tile">
+        <div style="font-size:32px">👆</div>
+        <div class="motion-label">Tap Feedback</div>
+        <div class="motion-sub">scale(0.97) · 180ms</div>
+      </div>
+      <div class="motion-tile">
+        <div style="font-size:32px;animation:gentle-shake 2s ease-in-out infinite">⚠️</div>
+        <div class="motion-label">Gentle Shake</div>
+        <div class="motion-sub">gentle-shake · 450ms</div>
+      </div>
+    </div>
+    <h4 style="font-size:12px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">Motion Tokens</h4>
+    <table>
+      <thead><tr><th>Token</th><th>Value</th><th>When to Use</th></tr></thead>
+      <tbody>
+        <tr><td>--dur-calm</td><td>180ms</td><td>Tap feedback, hover state</td></tr>
+        <tr><td>--dur-gentle</td><td>320ms</td><td>Card reveal, chip activate</td></tr>
+        <tr><td>--dur-drift</td><td>500ms</td><td>Page transitions, expand</td></tr>
+        <tr><td>--ease-out</td><td>cubic-bezier(0,0,0.2,1)</td><td>Dismiss, slide away</td></tr>
+        <tr><td>--ease-spring</td><td>cubic-bezier(0.34,1.4,0.64,1)</td><td>Appear, bounce, FAB</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 17 STATES -->
+  <section id="states">
+    <div class="section-num">17</div>
+    <div class="section-label">System</div>
+    <h2 class="section-title">System States</h2>
+    <p class="section-desc">Loading, empty, and error states that calm rather than alarm.</p>
+    <div class="grid-3" style="margin-bottom:24px">
+      <div class="empty-state">
+        <div class="empty-icon"><i class="ph-fill ph-flower-tulip"></i></div>
+        <div class="empty-title">No updates yet</div>
+        <div class="empty-desc">Your child's teacher will share moments and updates here soon</div>
+        <button class="btn btn-primary btn-sm" style="margin-top:4px"><i class="ph-fill ph-bell"></i> Enable Notifications</button>
+      </div>
+      <div class="empty-state">
+        <div class="empty-icon" style="background:rgba(91,192,235,0.1)"><i class="ph-fill ph-bus" style="color:var(--secondary-blue)"></i></div>
+        <div class="empty-title">Route not started</div>
+        <div class="empty-desc">Bus route begins at 7:30 AM. You'll get a heads-up when it starts!</div>
+      </div>
+      <div class="empty-state error-state">
+        <div class="empty-icon"><i class="ph-fill ph-cloud-slash"></i></div>
+        <div class="empty-title">Something didn't load</div>
+        <div class="empty-desc">Nothing to worry about — tap to try again</div>
+        <button class="btn btn-ghost btn-sm" style="margin-top:4px"><i class="ph ph-arrow-clockwise"></i> Refresh</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18 SCREEN PATTERNS -->
+  <section id="patterns">
+    <div class="section-num">18</div>
+    <div class="section-label">Patterns</div>
+    <h2 class="section-title">Screen Patterns</h2>
+    <p class="section-desc">Real 390×844 mobile frames showing how components compose into calming, trustworthy screens. All screens based on wireframes with proper Phosphor icon navigation.</p>
+
+    <!-- TEACHER SCREENS -->
+    <h4 style="font-size:13px;font-weight:800;color:var(--primary-light);margin-bottom:20px;display:flex;align-items:center;gap:8px;margin-top:8px"><i class="ph-fill ph-chalkboard"></i> Teacher App</h4>
+    <div class="screens-grid" style="margin-bottom:48px">
+      <!-- Teacher Home -->
+      <div class="phone-wrap">
+        <div class="phone-label">Home Dashboard</div>
+        <div class="phone-frame">
+          <div class="phone-notch">
+            <span class="phone-time">9:41</span>
+            <div class="phone-icons"><i class="ph-fill ph-wifi-high"></i><i class="ph-fill ph-battery-full"></i></div>
+          </div>
+          <div class="phone-content">
+            <div class="pscreen">
+              <div class="pscreen-greeting">
+                <div class="hey">Good morning,</div>
+                <div class="name"><span>Ms. Priya</span> 🌸</div>
+              </div>
+              <div class="p-card" style="background:var(--grad-violet);border:none">
+                <div style="font-size:10px;font-weight:800;opacity:.7;margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em">Nursery A · Today</div>
+                <div class="p-metric-row">
+                  <div class="p-metric" style="background:rgba(255,255,255,0.15)">
+                    <i class="ph-fill ph-check-circle" style="color:white;font-size:16px;display:block;margin-bottom:3px"></i>
+                    <div class="mnum" style="color:white">18</div><div class="mlabel" style="color:rgba(255,255,255,.7)">Present</div>
+                  </div>
+                  <div class="p-metric" style="background:rgba(255,255,255,0.15)">
+                    <i class="ph-fill ph-x-circle" style="color:white;font-size:16px;display:block;margin-bottom:3px"></i>
+                    <div class="mnum" style="color:white">2</div><div class="mlabel" style="color:rgba(255,255,255,.7)">Absent</div>
+                  </div>
+                  <div class="p-metric" style="background:rgba(255,255,255,0.15)">
+                    <i class="ph-fill ph-note-pencil" style="color:white;font-size:16px;display:block;margin-bottom:3px"></i>
+                    <div class="mnum" style="color:white">10</div><div class="mlabel" style="color:rgba(255,255,255,.7)">Observed</div>
+                  </div>
+                </div>
+              </div>
+              <div class="p-card">
+                <div class="p-card-title"><i class="ph-fill ph-lightning"></i> Quick Actions</div>
+                <div class="p-quick-actions">
+                  <div class="p-qa"><i class="ph-fill ph-check-square"></i><div class="qa-label">Mark Attendance</div></div>
+                  <div class="p-qa"><i class="ph-fill ph-note-pencil"></i><div class="qa-label">Record Observation</div></div>
+                  <div class="p-qa"><i class="ph-fill ph-calendar-plus"></i><div class="qa-label">Create Event</div></div>
+                  <div class="p-qa"><i class="ph-fill ph-megaphone"></i><div class="qa-label">Announcement</div></div>
+                </div>
+              </div>
+              <div class="p-card">
+                <div class="p-card-title"><i class="ph-fill ph-clock-countdown"></i> Upcoming Activities</div>
+                <div style="display:flex;flex-direction:column;gap:6px">
+                  <div class="p-schedule-item">
+                    <span class="p-sched-time">10:30</span>
+                    <span class="p-sched-label">Storytelling</span>
+                    <div class="p-sched-icon"><i class="ph-fill ph-book-open-text"></i></div>
+                  </div>
+                  <div class="p-schedule-item" style="border-left-color:var(--secondary-blue)">
+                    <span class="p-sched-time" style="color:var(--secondary-blue)">12:00</span>
+                    <span class="p-sched-label">Drawing Activity</span>
+                    <div class="p-sched-icon"><i class="ph-fill ph-palette"></i></div>
+                  </div>
+                  <div class="p-schedule-item" style="border-left-color:var(--secondary-green)">
+                    <span class="p-sched-time" style="color:var(--secondary-green)">01:30</span>
+                    <span class="p-sched-label">Outdoor Play</span>
+                    <div class="p-sched-icon"><i class="ph-fill ph-tree"></i></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="p-bottom-nav">
+              <div class="p-nav-item pnav-active-v"><i class="ph-fill ph-house"></i><span>Home</span></div>
+              <div class="p-nav-item"><i class="ph ph-chalkboard"></i><span>Classroom</span></div>
+              <div class="p-nav-item"><i class="ph ph-users-three"></i><span>Students</span></div>
+              <div class="p-nav-item"><i class="ph ph-user-circle"></i><span>Profile</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Teacher My Classroom -->
+      <div class="phone-wrap">
+        <div class="phone-label">My Classroom — Feed</div>
+        <div class="phone-frame">
+          <div class="phone-notch">
+            <span class="phone-time">9:41</span>
+            <div class="phone-icons"><i class="ph-fill ph-wifi-high"></i><i class="ph-fill ph-battery-full"></i></div>
+          </div>
+          <div class="phone-content">
+            <div class="pscreen">
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <div style="font-size:16px;font-weight:900;font-family:'Plus Jakarta Sans',sans-serif">My Classroom</div>
+                <div style="display:flex;gap:8px">
+                  <button style="background:var(--bg-elevated);border:none;border-radius:var(--r-md);width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer"><i class="ph ph-magnifying-glass" style="font-size:14px;color:var(--text-secondary)"></i></button>
+                  <button style="background:var(--grad-violet);border:none;border-radius:var(--r-md);width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer"><i class="ph-fill ph-plus" style="font-size:14px;color:white"></i></button>
+                </div>
+              </div>
+              <div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:2px">
+                <div class="chip active" style="font-size:10px;padding:5px 10px"><i class="ph-fill ph-squares-four" style="font-size:11px"></i> All</div>
+                <div class="chip" style="font-size:10px;padding:5px 10px"><i class="ph ph-calendar" style="font-size:11px"></i> Events</div>
+                <div class="chip" style="font-size:10px;padding:5px 10px"><i class="ph ph-megaphone" style="font-size:11px"></i> Announce</div>
+                <div class="chip" style="font-size:10px;padding:5px 10px"><i class="ph ph-palette" style="font-size:11px"></i> Activities</div>
+              </div>
+              <!-- Feed item 1 -->
+              <div style="background:var(--bg-card);border-radius:var(--r-lg);border:1px solid var(--border);overflow:hidden">
+                <div style="padding:10px 12px;display:flex;gap:8px;align-items:center">
+                  <div style="width:28px;height:28px;border-radius:50%;background:var(--grad-violet);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:white">PW</div>
+                  <div style="flex:1"><div style="font-size:11px;font-weight:800">Priya</div><div style="font-size:9px;color:var(--text-muted)">2 hours ago</div></div>
+                  <span style="background:rgba(123,97,255,0.15);color:var(--primary-light);font-size:9px;font-weight:800;padding:3px 8px;border-radius:var(--r-pill);display:flex;align-items:center;gap:3px"><i class="ph-fill ph-calendar" style="font-size:9px"></i> Event</span>
+                </div>
+                <div style="background:var(--bg-elevated);height:70px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:11px;color:var(--text-muted)"><i class="ph ph-image" style="font-size:20px"></i> Annual Sports Day</div>
+                <div style="padding:8px 12px;font-size:11px;color:var(--text-secondary)">Great progress today! Children were very engaged.</div>
+                <div style="padding:6px 12px;border-top:1px solid var(--border);display:flex;gap:6px">
+                  <button style="background:none;border:none;font-size:10px;font-weight:700;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;gap:4px"><i class="ph ph-heart" style="font-size:12px"></i> 12</button>
+                  <button style="background:none;border:none;font-size:10px;font-weight:700;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;gap:4px"><i class="ph ph-chat-circle" style="font-size:12px"></i> 2</button>
+                </div>
+              </div>
+              <!-- Feed item 2 -->
+              <div style="background:var(--bg-card);border-radius:var(--r-lg);border:1px solid var(--border);padding:10px 12px">
+                <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+                  <div style="width:28px;height:28px;border-radius:50%;background:var(--grad-sky);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#1a3a4a">AS</div>
+                  <div style="flex:1"><div style="font-size:11px;font-weight:800">Aryan's Parent</div><div style="font-size:9px;color:var(--text-muted)">5 hours ago</div></div>
+                </div>
+                <div style="font-size:11px;color:var(--text-secondary)">Thank you for the wonderful art activity today! Aryan loved it 🎨</div>
+              </div>
+            </div>
+            <div class="p-bottom-nav">
+              <div class="p-nav-item"><i class="ph ph-house"></i><span>Home</span></div>
+              <div class="p-nav-item pnav-active-v"><i class="ph-fill ph-chalkboard"></i><span>Classroom</span></div>
+              <div class="p-nav-item"><i class="ph ph-users-three"></i><span>Students</span></div>
+              <div class="p-nav-item"><i class="ph ph-user-circle"></i><span>Profile</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Teacher Mark Attendance -->
+      <div class="phone-wrap">
+        <div class="phone-label">Mark Attendance</div>
+        <div class="phone-frame">
+          <div class="phone-notch">
+            <span class="phone-time">9:41</span>
+            <div class="phone-icons"><i class="ph-fill ph-wifi-high"></i><i class="ph-fill ph-battery-full"></i></div>
+          </div>
+          <div class="phone-content">
+            <div class="pscreen">
+              <div style="display:flex;align-items:center;gap:8px">
+                <button style="background:var(--bg-elevated);border:none;border-radius:var(--r-md);width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer"><i class="ph ph-arrow-left" style="font-size:14px;color:var(--text-secondary)"></i></button>
+                <div style="font-size:15px;font-weight:900;font-family:'Plus Jakarta Sans',sans-serif">Mark Attendance</div>
+              </div>
+              <div style="font-size:10px;color:var(--text-muted);font-weight:700">Friday, March 13, 2026</div>
+              <div style="display:flex;align-items:center;gap:8px;background:var(--bg-elevated);border-radius:var(--r-md);padding:8px 10px;border:1px solid var(--border)">
+                <i class="ph ph-magnifying-glass" style="font-size:14px;color:var(--text-muted)"></i>
+                <span style="font-size:11px;color:var(--text-muted)">Search students...</span>
+              </div>
+              <div style="display:flex;justify-content:flex-end">
+                <button style="background:rgba(110,231,183,0.15);color:var(--secondary-green);border:none;border-radius:var(--r-pill);padding:5px 12px;font-size:10px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:4px"><i class="ph-fill ph-check-circle" style="font-size:12px"></i> Mark All Present</button>
+              </div>
+              <!-- Students -->
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <div style="display:flex;align-items:center;gap:8px;background:var(--bg-card);border-radius:var(--r-md);padding:8px 10px;border:1px solid var(--border)">
+                  <div style="width:24px;height:24px;border-radius:50%;background:var(--grad-violet);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:white">AR</div>
+                  <span style="font-size:11px;font-weight:700;flex:1">Aryan Sharma</span>
+                  <div style="display:flex;gap:4px">
+                    <button style="background:rgba(110,231,183,0.2);border:1.5px solid var(--secondary-green);color:var(--secondary-green);border-radius:var(--r-pill);padding:3px 8px;font-size:9px;font-weight:800;cursor:pointer">Present</button>
+                    <button style="background:transparent;border:1.5px solid var(--border);color:var(--text-muted);border-radius:var(--r-pill);padding:3px 8px;font-size:9px;font-weight:800;cursor:pointer">Absent</button>
+                  </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;background:var(--bg-card);border-radius:var(--r-md);padding:8px 10px;border:1px solid var(--border)">
+                  <div style="width:24px;height:24px;border-radius:50%;background:var(--grad-peach);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#2a1a0e">ME</div>
+                  <span style="font-size:11px;font-weight:700;flex:1">Meera Patel</span>
+                  <div style="display:flex;gap:4px">
+                    <button style="background:transparent;border:1.5px solid var(--border);color:var(--text-muted);border-radius:var(--r-pill);padding:3px 8px;font-size:9px;font-weight:800;cursor:pointer">Present</button>
+                    <button style="background:rgba(255,107,107,0.2);border:1.5px solid var(--error);color:var(--error);border-radius:var(--r-pill);padding:3px 8px;font-size:9px;font-weight:800;cursor:pointer">Absent</button>
+                  </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;background:var(--bg-card);border-radius:var(--r-md);padding:8px 10px;border:1px solid var(--border)">
+                  <div style="width:24px;height:24px;border-radius:50%;background:var(--grad-sky);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#1a3a4a">RK</div>
+                  <span style="font-size:11px;font-weight:700;flex:1">Rahul Kumar</span>
+                  <div style="display:flex;gap:4px">
+                    <button style="background:rgba(110,231,183,0.2);border:1.5px solid var(--secondary-green);color:var(--secondary-green);border-radius:var(--r-pill);padding:3px 8px;font-size:9px;font-weight:800;cursor:pointer">Present</button>
+                    <button style="background:transparent;border:1.5px solid var(--border);color:var(--text-muted);border-radius:var(--r-pill);padding:3px 8px;font-size:9px;font-weight:800;cursor:pointer">Absent</button>
+                  </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;background:var(--bg-card);border-radius:var(--r-md);padding:8px 10px;border:1px solid var(--border)">
+                  <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#FFE066,#FFB4A2);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#2a2000">PR</div>
+                  <span style="font-size:11px;font-weight:700;flex:1">Priya Singh</span>
+                  <div style="display:flex;gap:4px">
+                    <button style="background:rgba(110,231,183,0.2);border:1.5px solid var(--secondary-green);color:var(--secondary-green);border-radius:var(--r-pill);padding:3px 8px;font-size:9px;font-weight:800;cursor:pointer">Present</button>
+                    <button style="background:transparent;border:1.5px solid var(--border);color:var(--text-muted);border-radius:var(--r-pill);padding:3px 8px;font-size:9px;font-weight:800;cursor:pointer">Absent</button>
+                  </div>
+                </div>
+              </div>
+              <button style="background:var(--grad-violet);color:white;border:none;border-radius:var(--r-pill);padding:12px;font-size:12px;font-weight:800;cursor:pointer;width:100%;display:flex;align-items:center;justify-content:center;gap:6px;font-family:'Nunito',sans-serif"><i class="ph-fill ph-check-circle"></i> Submit Attendance</button>
+            </div>
+            <div class="p-bottom-nav">
+              <div class="p-nav-item"><i class="ph ph-house"></i><span>Home</span></div>
+              <div class="p-nav-item"><i class="ph ph-chalkboard"></i><span>Classroom</span></div>
+              <div class="p-nav-item pnav-active-v"><i class="ph-fill ph-users-three"></i><span>Students</span></div>
+              <div class="p-nav-item"><i class="ph ph-user-circle"></i><span>Profile</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PARENT SCREENS -->
+    <h4 style="font-size:13px;font-weight:800;color:var(--secondary-blue);margin-bottom:20px;display:flex;align-items:center;gap:8px"><i class="ph-fill ph-house-line"></i> Parent App</h4>
+    <div class="screens-grid" style="margin-bottom:48px">
+      <!-- Parent Home -->
+      <div class="phone-wrap">
+        <div class="phone-label">Home Dashboard</div>
+        <div class="phone-frame">
+          <div class="phone-notch">
+            <span class="phone-time">9:41</span>
+            <div class="phone-icons"><i class="ph-fill ph-wifi-high"></i><i class="ph-fill ph-battery-full"></i></div>
+          </div>
+          <div class="phone-content">
+            <div class="pscreen">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between">
+                <div class="pscreen-greeting">
+                  <div class="hey">Good morning,</div>
+                  <div class="name"><span>Aryan</span> is checked in ✨</div>
+                </div>
+                <button style="background:var(--bg-elevated);border:none;border-radius:var(--r-md);width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative"><i class="ph-fill ph-bell" style="font-size:16px;color:var(--text-secondary)"></i><div style="width:8px;height:8px;background:var(--error);border-radius:50%;position:absolute;top:4px;right:4px;border:1.5px solid var(--bg-base)"></div></button>
+              </div>
+              <!-- Bus card -->
+              <div class="p-bus-card">
+                <div class="btitle"><i class="ph-fill ph-bus" style="font-size:13px"></i> Bus #ATL01</div>
+                <div class="bstatus">Arriving in 5 mins</div>
+                <div class="bmeta"><i class="ph ph-map-pin" style="font-size:11px"></i> Main Street Junction · 500m away</div>
+                <button class="btrack-btn"><i class="ph-fill ph-navigation-arrow"></i> Track Live</button>
+              </div>
+              <!-- Today summary -->
+              <div class="p-card">
+                <div class="p-card-title"><i class="ph-fill ph-sun"></i> Today's Summary</div>
+                <div class="grad-metric-row">
+                  <div class="grad-metric gm-green"><i class="ph-fill ph-check-circle" style="color:var(--secondary-green);font-size:14px"></i><div class="gnum" style="color:var(--secondary-green);font-size:14px">✓</div><div class="glabel">Present</div></div>
+                  <div class="grad-metric" style="background:rgba(123,97,255,0.1)"><div style="font-size:18px">😊</div><div class="gnum" style="color:var(--primary-light);font-size:11px">Happy</div><div class="glabel">Mood</div></div>
+                  <div class="grad-metric gm-blue"><i class="ph-fill ph-fork-knife" style="color:var(--secondary-blue);font-size:14px"></i><div class="gnum" style="color:var(--secondary-blue);font-size:11px">Ate</div><div class="glabel">Snacks</div></div>
+                </div>
+              </div>
+              <!-- Schedule -->
+              <div class="p-card">
+                <div class="p-card-title"><i class="ph-fill ph-clock"></i> Today's Schedule</div>
+                <div style="display:flex;flex-direction:column;gap:5px">
+                  <div class="p-schedule-item" style="border-left-color:var(--accent-yellow);background:rgba(255,224,102,0.06)">
+                    <span class="p-sched-time" style="color:var(--accent-yellow)">Now</span>
+                    <span class="p-sched-label">Snack Time</span>
+                    <div class="p-sched-icon"><i class="ph-fill ph-fork-knife" style="color:var(--accent-yellow)"></i></div>
+                  </div>
+                  <div class="p-schedule-item" style="border-left-color:var(--secondary-green)">
+                    <span class="p-sched-time" style="color:var(--secondary-green)">11:00</span>
+                    <span class="p-sched-label">Outdoor Play</span>
+                    <div class="p-sched-icon"><i class="ph-fill ph-soccer-ball" style="color:var(--secondary-green)"></i></div>
+                  </div>
+                  <div class="p-schedule-item">
+                    <span class="p-sched-time">12:00</span>
+                    <span class="p-sched-label">Lunch Break</span>
+                    <div class="p-sched-icon"><i class="ph ph-bowl-food"></i></div>
+                  </div>
+                </div>
+              </div>
+              <!-- Quick actions -->
+              <div class="p-card">
+                <div class="p-card-title"><i class="ph-fill ph-lightning"></i> Quick Actions</div>
+                <div class="p-quick-actions">
+                  <div class="p-qa"><i class="ph-fill ph-bus" style="color:var(--secondary-blue)"></i><div class="qa-label">Track Bus</div></div>
+                  <div class="p-qa"><i class="ph-fill ph-calendar-blank" style="color:var(--primary-light)"></i><div class="qa-label">Apply Leave</div></div>
+                  <div class="p-qa"><i class="ph-fill ph-chat-circle-text" style="color:var(--secondary-green)"></i><div class="qa-label">Send Request</div></div>
+                  <div class="p-qa"><i class="ph-fill ph-wallet" style="color:var(--accent-peach)"></i><div class="qa-label">Fee Payment</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="p-bottom-nav">
+              <div class="p-nav-item pnav-active-s"><i class="ph-fill ph-house"></i><span>Home</span></div>
+              <div class="p-nav-item"><i class="ph ph-book-open"></i><span>Classroom</span></div>
+              <div class="p-nav-item"><i class="ph ph-wallet"></i><span>Payments</span></div>
+              <div class="p-nav-item"><i class="ph ph-user-circle"></i><span>Profile</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Parent Fee Payments -->
+      <div class="phone-wrap">
+        <div class="phone-label">Fee Payments</div>
+        <div class="phone-frame">
+          <div class="phone-notch">
+            <span class="phone-time">9:41</span>
+            <div class="phone-icons"><i class="ph-fill ph-wifi-high"></i><i class="ph-fill ph-battery-full"></i></div>
+          </div>
+          <div class="phone-content">
+            <div class="pscreen">
+              <div style="display:flex;align-items:center;gap:8px">
+                <button style="background:var(--bg-elevated);border:none;border-radius:var(--r-md);width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer"><i class="ph ph-arrow-left" style="font-size:14px;color:var(--text-secondary)"></i></button>
+                <div style="font-size:15px;font-weight:900;font-family:'Plus Jakarta Sans',sans-serif">Fee Payments</div>
+              </div>
+              <!-- Overview card -->
+              <div class="p-card" style="background:var(--grad-violet);border:none">
+                <div style="font-size:10px;font-weight:800;opacity:.7;margin-bottom:6px;text-transform:uppercase;letter-spacing:.08em">Annual Overview</div>
+                <div style="font-size:22px;font-weight:900;font-family:'Plus Jakarta Sans',sans-serif">₹1,80,000</div>
+                <div style="font-size:10px;opacity:.7;margin-top:2px">Total Fees 2026</div>
+                <div style="display:flex;gap:8px;margin-top:10px">
+                  <div style="flex:1;background:rgba(255,255,255,.15);border-radius:var(--r-md);padding:8px;text-align:center">
+                    <div style="font-size:13px;font-weight:900">₹1,20,000</div>
+                    <div style="font-size:9px;opacity:.7;margin-top:2px">Paid</div>
+                  </div>
+                  <div style="flex:1;background:rgba(255,255,255,.15);border-radius:var(--r-md);padding:8px;text-align:center">
+                    <div style="font-size:13px;font-weight:900">₹60,000</div>
+                    <div style="font-size:9px;opacity:.7;margin-top:2px">Pending</div>
+                  </div>
+                </div>
+              </div>
+              <!-- Installments -->
+              <div class="p-card">
+                <div class="p-card-title"><i class="ph-fill ph-list-numbers"></i> Installments</div>
+                <div style="display:flex;flex-direction:column;gap:6px">
+                  <div class="p-fee-row">
+                    <div class="p-fee-icon" style="background:rgba(110,231,183,0.15)"><i class="ph-fill ph-check-circle" style="color:var(--secondary-green);font-size:16px"></i></div>
+                    <div style="flex:1"><div class="p-fee-label">Installment 1</div><div style="font-size:9px;color:var(--text-muted)">Paid on Jan 25, 2026</div></div>
+                    <span class="p-fee-amount p-fee-paid">₹60,000</span>
+                  </div>
+                  <div class="p-fee-row">
+                    <div class="p-fee-icon" style="background:rgba(110,231,183,0.15)"><i class="ph-fill ph-check-circle" style="color:var(--secondary-green);font-size:16px"></i></div>
+                    <div style="flex:1"><div class="p-fee-label">Installment 2</div><div style="font-size:9px;color:var(--text-muted)">Paid on Feb 20, 2026</div></div>
+                    <span class="p-fee-amount p-fee-paid">₹60,000</span>
+                  </div>
+                  <div class="p-fee-row" style="border-color:rgba(255,224,102,0.2)">
+                    <div class="p-fee-icon" style="background:rgba(255,224,102,0.15)"><i class="ph-fill ph-clock" style="color:var(--warning);font-size:16px"></i></div>
+                    <div style="flex:1"><div class="p-fee-label">Installment 3</div><div style="font-size:9px;color:var(--warning)">Due by Mar 31, 2026</div></div>
+                    <span class="p-fee-amount p-fee-due">₹60,000</span>
+                  </div>
+                </div>
+              </div>
+              <!-- Extra fees -->
+              <div class="p-card">
+                <div class="p-card-title"><i class="ph-fill ph-plus-circle"></i> Extra Payments</div>
+                <div style="display:flex;flex-direction:column;gap:6px">
+                  <div class="p-fee-row">
+                    <div class="p-fee-icon" style="background:rgba(123,97,255,0.15)"><i class="ph-fill ph-star" style="color:var(--primary-light);font-size:16px"></i></div>
+                    <div style="flex:1"><div class="p-fee-label">Annual Day</div><div style="font-size:9px;color:var(--warning)">Due Mar 25</div></div>
+                    <span class="p-fee-amount p-fee-due">₹2,000</span>
+                  </div>
+                </div>
+              </div>
+              <button style="background:var(--grad-sky);color:#1a3a4a;border:none;border-radius:var(--r-pill);padding:12px;font-size:12px;font-weight:800;cursor:pointer;width:100%;display:flex;align-items:center;justify-content:center;gap:6px;font-family:'Nunito',sans-serif"><i class="ph-fill ph-credit-card"></i> Pay ₹60,000 Now</button>
+            </div>
+            <div class="p-bottom-nav">
+              <div class="p-nav-item"><i class="ph ph-house"></i><span>Home</span></div>
+              <div class="p-nav-item"><i class="ph ph-book-open"></i><span>Classroom</span></div>
+              <div class="p-nav-item pnav-active-s"><i class="ph-fill ph-wallet"></i><span>Payments</span></div>
+              <div class="p-nav-item"><i class="ph ph-user-circle"></i><span>Profile</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Parent Bus Tracking -->
+      <div class="phone-wrap">
+        <div class="phone-label">Bus Tracking</div>
+        <div class="phone-frame">
+          <div class="phone-notch">
+            <span class="phone-time">9:41</span>
+            <div class="phone-icons"><i class="ph-fill ph-wifi-high"></i><i class="ph-fill ph-battery-full"></i></div>
+          </div>
+          <div class="phone-content">
+            <div class="pscreen">
+              <div style="display:flex;align-items:center;gap:8px">
+                <button style="background:var(--bg-elevated);border:none;border-radius:var(--r-md);width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer"><i class="ph ph-arrow-left" style="font-size:14px;color:var(--text-secondary)"></i></button>
+                <div style="font-size:15px;font-weight:900;font-family:'Plus Jakarta Sans',sans-serif">Bus Tracking</div>
+                <span style="margin-left:auto;background:rgba(110,231,183,0.15);color:var(--secondary-green);font-size:9px;font-weight:800;padding:3px 8px;border-radius:var(--r-pill);display:flex;align-items:center;gap:3px"><i class="ph-fill ph-circle" style="font-size:7px"></i> On Time</span>
+              </div>
+              <!-- Map -->
+              <div class="map-placeholder">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+                  <div class="map-pin"><div class="map-pin-inner"></div></div>
+                  <div style="font-size:10px;color:var(--primary-light);font-weight:700;background:var(--bg-card);padding:2px 8px;border-radius:var(--r-pill);border:1px solid var(--border)">Bus ATL01</div>
+                </div>
+              </div>
+              <!-- ETA -->
+              <div class="p-card" style="background:var(--grad-sky);border:none">
+                <div style="display:flex;align-items:center;gap:12px">
+                  <i class="ph-fill ph-bus" style="font-size:28px;color:#1a3a4a;opacity:.9"></i>
+                  <div>
+                    <div style="font-size:18px;font-weight:900;color:#1a3a4a;font-family:'Plus Jakarta Sans',sans-serif">Arriving in 5 mins</div>
+                    <div style="font-size:11px;color:rgba(30,60,80,.7);margin-top:2px"><i class="ph ph-map-pin" style="font-size:11px"></i> Main Street Junction · 500m</div>
+                  </div>
+                </div>
+              </div>
+              <!-- Updates -->
+              <div class="p-card">
+                <div class="p-card-title"><i class="ph-fill ph-clock-clockwise"></i> Recent Updates</div>
+                <div style="display:flex;flex-direction:column;gap:6px">
+                  <div style="display:flex;gap:8px;align-items:flex-start">
+                    <div style="width:20px;height:20px;border-radius:50%;background:rgba(110,231,183,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px"><i class="ph-fill ph-check" style="font-size:10px;color:var(--secondary-green)"></i></div>
+                    <div style="flex:1"><div style="font-size:11px;font-weight:700">Departed from school</div><div style="font-size:9px;color:var(--text-muted)">15 minutes ago</div></div>
+                  </div>
+                  <div style="display:flex;gap:8px;align-items:flex-start">
+                    <div style="width:20px;height:20px;border-radius:50%;background:rgba(91,192,235,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px"><i class="ph-fill ph-map-pin" style="font-size:10px;color:var(--secondary-blue)"></i></div>
+                    <div style="flex:1"><div style="font-size:11px;font-weight:700">Passed checkpoint 2</div><div style="font-size:9px;color:var(--text-muted)">10 minutes ago</div></div>
+                  </div>
+                  <div style="display:flex;gap:8px;align-items:flex-start">
+                    <div style="width:20px;height:20px;border-radius:50%;background:rgba(255,224,102,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px"><i class="ph-fill ph-navigation-arrow" style="font-size:10px;color:var(--accent-yellow)"></i></div>
+                    <div style="flex:1"><div style="font-size:11px;font-weight:700">Approaching your location</div><div style="font-size:9px;color:var(--accent-yellow)">Just now</div></div>
+                  </div>
+                </div>
+              </div>
+              <!-- Driver info -->
+              <div class="p-card">
+                <div class="p-card-title"><i class="ph-fill ph-user-circle"></i> Driver Info</div>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <div style="width:32px;height:32px;border-radius:50%;background:var(--grad-peach);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#2a1a0e">RK</div>
+                  <div style="flex:1"><div style="font-size:12px;font-weight:800">Rajesh Kumar</div><div style="font-size:10px;color:var(--text-muted)">+91 98765 43210</div></div>
+                  <button style="background:rgba(110,231,183,0.15);border:none;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer"><i class="ph-fill ph-phone" style="font-size:14px;color:var(--secondary-green)"></i></button>
+                </div>
+              </div>
+            </div>
+            <div class="p-bottom-nav">
+              <div class="p-nav-item"><i class="ph ph-house"></i><span>Home</span></div>
+              <div class="p-nav-item pnav-active-s"><i class="ph-fill ph-book-open"></i><span>Classroom</span></div>
+              <div class="p-nav-item"><i class="ph ph-wallet"></i><span>Payments</span></div>
+              <div class="p-nav-item"><i class="ph ph-user-circle"></i><span>Profile</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DRIVER SCREENS -->
+    <h4 style="font-size:13px;font-weight:800;color:var(--accent-peach);margin-bottom:20px;display:flex;align-items:center;gap:8px"><i class="ph-fill ph-bus"></i> Driver App</h4>
+    <div class="screens-grid">
+      <!-- Driver Trip Not Started -->
+      <div class="phone-wrap">
+        <div class="phone-label">Trip — Not Started</div>
+        <div class="phone-frame">
+          <div class="phone-notch">
+            <span class="phone-time">7:30</span>
+            <div class="phone-icons"><i class="ph-fill ph-wifi-high"></i><i class="ph-fill ph-battery-full"></i></div>
+          </div>
+          <div class="phone-content">
+            <div class="pscreen">
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <div>
+                  <div style="font-size:11px;color:var(--text-muted);font-weight:700">Morning Route</div>
+                  <div style="font-size:18px;font-weight:900;font-family:'Plus Jakarta Sans',sans-serif">Bus ATL 01</div>
+                </div>
+                <div style="background:rgba(255,224,102,0.15);border-radius:var(--r-pill);padding:5px 10px;font-size:10px;font-weight:800;color:var(--warning);display:flex;align-items:center;gap:4px"><i class="ph-fill ph-clock" style="font-size:12px"></i> Not Started</div>
+              </div>
+              <div class="trip-status-card">
+                <div style="width:64px;height:64px;border-radius:50%;background:rgba(255,180,162,0.1);border:2px dashed rgba(255,180,162,0.3);display:flex;align-items:center;justify-content:center;animation:calm-float 3.5s ease-in-out infinite">
+                  <i class="ph-fill ph-bus" style="font-size:30px;color:var(--accent-peach)"></i>
+                </div>
+                <div class="trip-status-label">Trip Status</div>
+                <div class="trip-status-title">Ready to Start</div>
+                <div class="trip-status-sub">Your route is loaded and ready. Tap to begin!</div>
+              </div>
+              <!-- Route summary -->
+              <div class="p-card">
+                <div class="p-card-title"><i class="ph-fill ph-route"></i> Route Summary</div>
+                <div class="grad-metric-row">
+                  <div class="grad-metric gm-blue"><i class="ph-fill ph-map-pin" style="color:var(--secondary-blue);font-size:13px"></i><div class="gnum" style="color:var(--secondary-blue);font-size:16px">8</div><div class="glabel">Stops</div></div>
+                  <div class="grad-metric gm-violet"><i class="ph-fill ph-users" style="color:var(--primary-light);font-size:13px"></i><div class="gnum" style="color:var(--primary-light);font-size:16px">24</div><div class="glabel">Students</div></div>
+                  <div class="grad-metric gm-green"><i class="ph-fill ph-clock" style="color:var(--secondary-green);font-size:13px"></i><div class="gnum" style="color:var(--secondary-green);font-size:16px">35m</div><div class="glabel">Est. Time</div></div>
+                </div>
+              </div>
+              <button class="trip-start-btn"><i class="ph-fill ph-play-circle"></i> Start Trip</button>
+              <button class="sos-btn"><i class="ph-fill ph-siren"></i> Emergency SOS</button>
+            </div>
+            <div class="p-bottom-nav" style="background:var(--bg-elevated);border-color:var(--border)">
+              <div class="p-nav-item pnav-active-p"><i class="ph-fill ph-map-trifold"></i><span>Route</span></div>
+              <div class="p-nav-item"><i class="ph ph-users"></i><span>Kids</span></div>
+              <div class="p-nav-item"><i class="ph ph-bell-ringing"></i><span>Alerts</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Driver Ongoing Trip -->
+      <div class="phone-wrap">
+        <div class="phone-label">Trip — Ongoing</div>
+        <div class="phone-frame">
+          <div class="phone-notch">
+            <span class="phone-time">7:45</span>
+            <div class="phone-icons"><i class="ph-fill ph-wifi-high"></i><i class="ph-fill ph-battery-full"></i></div>
+          </div>
+          <div class="phone-content">
+            <div class="pscreen">
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <div>
+                  <div style="font-size:11px;color:var(--text-muted);font-weight:700">Trip Status</div>
+                  <div style="font-size:18px;font-weight:900;font-family:'Plus Jakarta Sans',sans-serif">Ongoing</div>
+                </div>
+                <div style="background:rgba(110,231,183,0.15);border-radius:var(--r-pill);padding:5px 10px;font-size:10px;font-weight:800;color:var(--secondary-green);display:flex;align-items:center;gap:4px"><i class="ph-fill ph-circle" style="font-size:8px"></i> Live</div>
+              </div>
+              <!-- Mini map -->
+              <div class="map-placeholder" style="height:90px">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:3px">
+                  <div style="background:var(--secondary-green);width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(110,231,183,0.5)"><i class="ph-fill ph-bus" style="font-size:12px;color:#1a3a4a"></i></div>
+                  <div style="font-size:9px;color:var(--secondary-green);font-weight:700;background:var(--bg-card);padding:1px 6px;border-radius:var(--r-pill)">You're here</div>
+                </div>
+              </div>
+              <!-- Next stop -->
+              <div class="p-card" style="background:rgba(123,97,255,0.08);border-color:rgba(123,97,255,0.2)">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+                  <div style="font-size:10px;font-weight:800;color:var(--primary-light);display:flex;align-items:center;gap:4px"><i class="ph-fill ph-map-pin" style="font-size:12px"></i> Current Stop</div>
+                  <div style="font-size:9px;font-weight:800;background:rgba(110,231,183,0.15);color:var(--secondary-green);padding:3px 8px;border-radius:var(--r-pill)">ETA: 2 mins</div>
+                </div>
+                <div style="font-size:15px;font-weight:900;font-family:'Plus Jakarta Sans',sans-serif">Aryan's Home</div>
+                <div style="font-size:10px;color:var(--text-muted);margin-top:2px">Green Valley Apt, Sector 15</div>
+              </div>
+              <!-- Pickup list -->
+              <div class="p-card">
+                <div class="p-card-title"><i class="ph-fill ph-users"></i> Students to Pick Up</div>
+                <div class="pickup-list">
+                  <div class="pickup-item"><i class="ph-fill ph-check-square" style="font-size:15px;color:var(--secondary-green)"></i><span class="pickup-name">Aryan Sharma</span><span style="font-size:9px;color:var(--text-muted)">Confirmed</span></div>
+                  <div class="pickup-item"><i class="ph ph-square" style="font-size:15px;color:var(--text-muted)"></i><span class="pickup-name">Meera Patel</span><span style="font-size:9px;color:var(--text-muted)">Waiting</span></div>
+                  <div class="pickup-item"><i class="ph ph-square" style="font-size:15px;color:var(--text-muted)"></i><span class="pickup-name">Rohit Kumar</span><span style="font-size:9px;color:var(--text-muted)">Waiting</span></div>
+                </div>
+              </div>
+              <button style="background:var(--grad-sky);color:#1a3a4a;border:none;border-radius:var(--r-pill);padding:11px;font-size:12px;font-weight:800;cursor:pointer;width:100%;display:flex;align-items:center;justify-content:center;gap:6px;font-family:'Nunito',sans-serif"><i class="ph-fill ph-check-circle"></i> Confirm Pickup</button>
+              <button class="sos-btn" style="padding:8px 20px;font-size:11px"><i class="ph-fill ph-siren"></i> SOS</button>
+            </div>
+            <div class="p-bottom-nav">
+              <div class="p-nav-item pnav-active-p"><i class="ph-fill ph-map-trifold"></i><span>Route</span></div>
+              <div class="p-nav-item"><i class="ph ph-users"></i><span>Kids</span></div>
+              <div class="p-nav-item"><i class="ph ph-bell-ringing"></i><span>Alerts</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Driver Trip Complete -->
+      <div class="phone-wrap">
+        <div class="phone-label">Trip Completed</div>
+        <div class="phone-frame">
+          <div class="phone-notch">
+            <span class="phone-time">9:05</span>
+            <div class="phone-icons"><i class="ph-fill ph-wifi-high"></i><i class="ph-fill ph-battery-full"></i></div>
+          </div>
+          <div class="phone-content">
+            <div class="pscreen" style="justify-content:center;align-items:center;text-align:center;flex:1">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:12px;padding:20px 0">
+                <div style="width:80px;height:80px;border-radius:50%;background:var(--grad-sky);display:flex;align-items:center;justify-content:center;box-shadow:0 0 32px rgba(91,192,235,0.4)">
+                  <i class="ph-fill ph-check-fat" style="font-size:36px;color:#1a3a4a"></i>
+                </div>
+                <div>
+                  <div style="font-size:10px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px">Trip Status</div>
+                  <div style="font-size:22px;font-weight:900;font-family:'Plus Jakarta Sans',sans-serif">Completed! 🎉</div>
+                </div>
+              </div>
+              <!-- Summary -->
+              <div class="p-card" style="width:100%">
+                <div class="p-card-title"><i class="ph-fill ph-chart-bar"></i> Trip Summary</div>
+                <div class="grad-metric-row">
+                  <div class="grad-metric gm-blue"><i class="ph-fill ph-map-pin" style="font-size:13px;color:var(--secondary-blue)"></i><div class="gnum" style="color:var(--secondary-blue);font-size:18px">8</div><div class="glabel">Stops</div></div>
+                  <div class="grad-metric gm-green"><i class="ph-fill ph-users" style="font-size:13px;color:var(--secondary-green)"></i><div class="gnum" style="color:var(--secondary-green);font-size:18px">24</div><div class="glabel">Picked Up</div></div>
+                  <div class="grad-metric gm-violet"><i class="ph-fill ph-check-circle" style="font-size:13px;color:var(--primary-light)"></i><div class="gnum" style="color:var(--primary-light);font-size:18px">24</div><div class="glabel">Dropped</div></div>
+                </div>
+              </div>
+              <button style="background:var(--grad-violet);color:white;border:none;border-radius:var(--r-pill);padding:12px 32px;font-size:12px;font-weight:800;cursor:pointer;width:100%;display:flex;align-items:center;justify-content:center;gap:6px;font-family:'Nunito',sans-serif"><i class="ph-fill ph-flag-checkered"></i> End Trip</button>
+            </div>
+            <div class="p-bottom-nav">
+              <div class="p-nav-item pnav-active-p"><i class="ph-fill ph-map-trifold"></i><span>Route</span></div>
+              <div class="p-nav-item"><i class="ph ph-users"></i><span>Kids</span></div>
+              <div class="p-nav-item"><i class="ph ph-bell-ringing"></i><span>Alerts</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19 TOKENS -->
+  <section id="tokens">
+    <div class="section-num">19</div>
+    <div class="section-label">Figma</div>
+    <h2 class="section-title">Figma Token Export</h2>
+    <p class="section-desc">Import via Tokens Studio plugin. Map each token to Dark and Light mode variable collections.</p>
+    <div class="code-block">
+<pre><span class="cm">// Blossom Design Tokens — Soft Future System v1</span>
+<span class="cm">// Icons: Phosphor Icons (@phosphor-icons/web@2.1.1)</span>
+<span class="cm">// Fonts: Nunito (display/body) + Plus Jakarta Sans (hero/numbers)</span>
+{
+  <span class="ck">"color"</span>: {
+    <span class="cm">// === PRIMARY ===</span>
+    <span class="ck">"primary/main"</span>: <span class="cv">"#7B61FF"</span>,
+    <span class="ck">"primary/light"</span>: <span class="cv">"#A89BFF"</span>,
+    <span class="ck">"primary/pressed"</span>: <span class="cv">"#6A52E0"</span>,
+    <span class="ck">"secondary/blue"</span>: <span class="cv">"#5BC0EB"</span>,
+    <span class="ck">"secondary/green"</span>: <span class="cv">"#6EE7B7"</span>,
+    <span class="ck">"accent/peach"</span>: <span class="cv">"#FFB4A2"</span>,
+    <span class="ck">"accent/yellow"</span>: <span class="cv">"#FFE066"</span>,
+    <span class="cm">// === SEMANTIC ===</span>
+    <span class="ck">"semantic/success"</span>: <span class="cv">"#6EE7B7"</span>,
+    <span class="ck">"semantic/warning"</span>: <span class="cv">"#FFE066"</span>,
+    <span class="ck">"semantic/error"</span>: <span class="cv">"#FF6B6B"</span>,
+    <span class="ck">"semantic/info"</span>: <span class="cv">"#5BC0EB"</span>,
+    <span class="cm">// === DARK MODE ===</span>
+    <span class="ck">"bg/base"</span>: <span class="cv">"#0E0E12"</span>,
+    <span class="ck">"bg/card"</span>: <span class="cv">"#1A1A1F"</span>,
+    <span class="ck">"bg/elevated"</span>: <span class="cv">"#222228"</span>,
+    <span class="ck">"text/primary"</span>: <span class="cv">"#F5F5F7"</span>,
+    <span class="ck">"text/secondary"</span>: <span class="cv">"#9090A0"</span>,
+    <span class="cm">// === LIGHT MODE ===</span>
+    <span class="ck">"bg/base@light"</span>: <span class="cv">"#F2F3F8"</span>,
+    <span class="ck">"bg/card@light"</span>: <span class="cv">"#FFFFFF"</span>,
+    <span class="ck">"text/primary@light"</span>: <span class="cv">"#1C1C1E"</span>
+  },
+  <span class="ck">"icon"</span>: {
+    <span class="cs">"library"</span>: <span class="cv">"Phosphor Icons v2.1.1"</span>,
+    <span class="cs">"nav/teacher/home"</span>: <span class="cv">"ph-house / ph-fill ph-house"</span>,
+    <span class="cs">"nav/teacher/classroom"</span>: <span class="cv">"ph-chalkboard / ph-fill ph-chalkboard"</span>,
+    <span class="cs">"nav/teacher/students"</span>: <span class="cv">"ph-users-three / ph-fill ph-users-three"</span>,
+    <span class="cs">"nav/teacher/profile"</span>: <span class="cv">"ph-user-circle / ph-fill ph-user-circle"</span>,
+    <span class="cs">"nav/parent/home"</span>: <span class="cv">"ph-house / ph-fill ph-house"</span>,
+    <span class="cs">"nav/parent/classroom"</span>: <span class="cv">"ph-book-open / ph-fill ph-book-open"</span>,
+    <span class="cs">"nav/parent/payments"</span>: <span class="cv">"ph-wallet / ph-fill ph-wallet"</span>,
+    <span class="cs">"nav/parent/profile"</span>: <span class="cv">"ph-user-circle / ph-fill ph-user-circle"</span>,
+    <span class="cs">"nav/driver/route"</span>: <span class="cv">"ph-map-trifold / ph-fill ph-map-trifold"</span>,
+    <span class="cs">"nav/driver/kids"</span>: <span class="cv">"ph-users / ph-fill ph-users"</span>,
+    <span class="cs">"nav/driver/alerts"</span>: <span class="cv">"ph-bell-ringing / ph-fill ph-bell-ringing"</span>
+  },
+  <span class="ck">"navigation"</span>: {
+    <span class="cs">"style"</span>: <span class="cv">"floating-pill"</span>,
+    <span class="cs">"margin"</span>: <span class="cv">"8px 8px 10px"</span>,
+    <span class="cs">"border-radius"</span>: <span class="cv">"18px"</span>,
+    <span class="cs">"active-state/icon"</span>: <span class="cv">"ph-fill (filled)"</span>,
+    <span class="cs">"inactive-state/icon"</span>: <span class="cv">"ph (outline)"</span>
+  }
+}</pre>
+    </div>
+
+    <div style="margin-top:32px">
+      <h4 style="font-size:12px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:16px">Figma Component Map</h4>
+      <table>
+        <thead><tr><th>Component</th><th>Frame Name</th><th>Variants</th><th>Key Prop</th></tr></thead>
+        <tbody>
+          <tr><td>Soft Card</td><td>Card/Soft</td><td>Default, Gradient/Violet, Sky, Peach</td><td>variant</td></tr>
+          <tr><td>Button</td><td>Button/Primary</td><td>Violet, Sky, Peach, Ghost, Outline, Disabled</td><td>variant, size</td></tr>
+          <tr><td>Chip</td><td>Chip/Filter</td><td>Default, Active/Violet, Sky, Green, Peach</td><td>active, color</td></tr>
+          <tr><td>Bottom Nav</td><td>Nav/Bottom</td><td>Teacher, Parent, Driver</td><td>app, activeTab</td></tr>
+          <tr><td>Nav Item</td><td>Nav/Item</td><td>Active/Violet, Active/Sky, Active/Peach, Inactive</td><td>state, app</td></tr>
+          <tr><td>FAB</td><td>FAB/Round</td><td>Violet, Sky, Peach, Danger</td><td>variant, icon</td></tr>
+          <tr><td>Feed Card</td><td>Card/Feed</td><td>Photo, Activity, Attendance, Message</td><td>type</td></tr>
+          <tr><td>Status Row</td><td>Row/Status</td><td>Present, Absent, Late</td><td>status</td></tr>
+          <tr><td>Metric Box</td><td>Box/Metric</td><td>Green, Red, Yellow, Blue, Violet</td><td>color, value</td></tr>
+          <tr><td>Notification</td><td>Notif/Row</td><td>Success, Bus, Photo, Message</td><td>type, isRead</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div style="padding:32px 48px;text-align:center;color:var(--text-muted);font-size:12px;font-weight:700;border-top:1px solid var(--border)">
+    Blossom Design System v1.0 · Icons by <a href="https://phosphoricons.com" style="color:var(--primary-light);text-decoration:none">Phosphor Icons</a> · Fonts by Google Fonts
+  </div>
+</main>
+
+<script>
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('theme-icon').className = isDark ? 'ph ph-moon-stars' : 'ph ph-sun';
+  document.getElementById('theme-label').textContent = isDark ? 'Dark' : 'Light';
+}
+
+// Sidebar active state on scroll
+const sections = document.querySelectorAll('section[id]');
+const links = document.querySelectorAll('.sidebar a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if(window.scrollY >= s.offsetTop - 80) current = s.id; });
+  links.forEach(l => {
+    l.classList.remove('active');
+    if(l.getAttribute('href') === '#' + current) l.classList.add('active');
+  });
+});
+
+// Interactive nav demo clicks
+document.querySelectorAll('.bnav-item').forEach(item => {
+  item.addEventListener('click', function() {
+    const nav = this.closest('.bottom-nav');
+    nav.querySelectorAll('.bnav-item').forEach(i => {
+      i.className = 'bnav-item';
+      const icon = i.querySelector('i');
+      const iconClass = icon.className.replace('ph-fill ', '');
+      icon.className = iconClass;
+    });
+    const app = nav.closest('.bnav-phone-frame').parentElement.querySelector('.bnav-app-label').textContent;
+    const activeClass = app.includes('Teacher') ? 'active-violet' : app.includes('Parent') ? 'active-sky' : 'active-peach';
+    this.classList.add(activeClass);
+    const icon = this.querySelector('i');
+    if(!icon.className.includes('ph-fill')) icon.className = 'ph-fill ' + icon.className.replace('ph ph-', 'ph-');
+  });
+});
+
+// Full nav item clicks
+document.querySelectorAll('.bnav-full-item').forEach(item => {
+  item.addEventListener('click', function() {
+    const nav = this.closest('.bnav-full-inner');
+    const appLabel = nav.closest('div').previousElementSibling;
+    const cls = appLabel.style.color.includes('91') ? 'as' : appLabel.style.color.includes('255') ? 'ap' : 'av';
+    nav.querySelectorAll('.bnav-full-item').forEach(i => i.className = 'bnav-full-item');
+    this.classList.add(cls);
+  });
+});
+</script>
+</body>
+</html>
